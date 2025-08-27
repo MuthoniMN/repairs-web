@@ -25,8 +25,10 @@ export default function Payments() {
         const fetchData = async () => {
             const res = await getAllInvoices(accessToken);
 
-            if (res.success) {
+            if (res.success && Array.isArray(res.data)) {
                 setInvoices(res.data);
+            } else {
+                setInvoices([]); // fallback
             }
         }
 
