@@ -51,15 +51,20 @@ const StockTable = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const res = await getAllStocks(accessToken);
+            try {
+                const res = await getAllStocks(accessToken);
 
-            if (res.success) {
-                setStock(res.data);
+                if (res.success) {
+                    setStock(res.data);
+                }
+            } catch (error) {
+                console.error(error)
+            } finally {
+                setLoading(false)
             }
         }
 
         fetchData()
-        setLoading(false)
     }, [accessToken])
 
     // Stock status helper

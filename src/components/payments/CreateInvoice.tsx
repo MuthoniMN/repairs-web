@@ -54,26 +54,39 @@ export default function CreateInvoice({ open, setOpen, job }: { open: boolean, s
         if (!accessToken) return;
 
         const fetchData = async () => {
-            const res = await getAllJobs(accessToken)
-            const result = await getAllJobCards(accessToken)
-            const results = await getAllProducts(accessToken)
+            try {
+                const [jobsRes, cardsRes, productsRes] = await Promise.all([
+                    getAllJobs(accessToken),
+                    getAllJobCards(accessToken),
+                    getAllProducts(accessToken)
+                ]);
 
-            if (res.success) {
-                setJobs(res.data)
-                setUnpaidCards(result.data)
-                setUnpaidProducts(results.data)
+                setJobs(Array.isArray(jobsRes.data) ? jobsRes.data : []);
+                setUnpaidCards(Array.isArray(cardsRes.data) ? cardsRes.data : []);
+                setUnpaidProducts(Array.isArray(productsRes.data) ? productsRes.data : []);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                setJobs([]);
+                setUnpaidCards([]);
+                setUnpaidProducts([]);
             }
-        }
+        };
 
         fetchData()
     }, [accessToken])
 
     useEffect(() => {
-        const calculated = unpaidCards.reduce((acc, card) => acc + card.price, 0) + unpaidProducts.reduce((acc, prod) => acc + prod.price, 0);
+        const cardsArray = Array.isArray(unpaidCards) ? unpaidCards : [];
+        const productsArray = Array.isArray(unpaidProducts) ? unpaidProducts : [];
+
+        const calculated = cardsArray.reduce((acc, card) => acc + (card?.price || 0), 0) +
+            productsArray.reduce((acc, prod) => acc + (prod?.price || 0), 0);
+
         const tax = Math.round((invoice.tax * calculated) / 100);
         const profit = Math.round((markUp * calculated) / 100);
+        const newTotal = calculated + tax + profit;
 
-        setInvoice({ ...invoice, total: calculated + tax + profit })
+        setInvoice(prev => prev.total !== newTotal ? { ...prev, total: newTotal } : prev);
     }, [unpaidCards, unpaidProducts, invoice, markUp]);
 
     const validateInput = (): boolean => {

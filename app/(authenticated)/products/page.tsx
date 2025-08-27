@@ -23,15 +23,20 @@ export default function Page() {
 
     useEffect(() => {
         const fetchData = async () => {
-            const res = await getAllProducts(accessToken);
+            try {
+                const res = await getAllProducts(accessToken);
 
-            if (res.success) {
-                setProducts(res.data);
+                if (res.success) {
+                    setProducts(res.data);
+                }
+            } catch (error) {
+                console.error(error)
+            } finally {
+                setLoading(false)
             }
         }
 
         fetchData();
-        setLoading(false)
     }, [open, accessToken])
 
     // Pagination calculations

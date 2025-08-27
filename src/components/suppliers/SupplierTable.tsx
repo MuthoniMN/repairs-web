@@ -30,15 +30,20 @@ const SupplierTable = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const res = await getAllSuppliers(accessToken);
+            try {
+                const res = await getAllSuppliers(accessToken);
 
-            if (res.success) {
-                setSuppliers(res.data);
+                if (res.success) {
+                    setSuppliers(res.data);
+                }
+            } catch (error) {
+                console.error(error)
+            } finally {
+                setLoading(false);
             }
         }
 
         fetchData()
-        setLoading(false);
     }, [accessToken, setSuppliers])
 
     const columns = useMemo(() => [

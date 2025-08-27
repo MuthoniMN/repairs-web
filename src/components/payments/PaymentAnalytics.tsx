@@ -95,26 +95,31 @@ const PaymentsDashboard = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const res = await getRecentPayments(10, accessToken);
-            const stats = await getPaymentStats(accessToken);
-            const summ = await getPaymentSummary(accessToken);
+            try {
+                const res = await getRecentPayments(10, accessToken);
+                const stats = await getPaymentStats(accessToken);
+                const summ = await getPaymentSummary(accessToken);
 
-            console.log(res, stats, summ);
+                console.log(res, stats, summ);
 
-            if (res.success) {
-                setPayments(res.data);
-            }
-            if (stats.success && summ.success) {
-                setAnalytics({
-                    ...analytics,
-                    ...stats.data,
-                    ...summ.data
-                });
+                if (res.success) {
+                    setPayments(res.data);
+                }
+                if (stats.success && summ.success) {
+                    setAnalytics({
+                        ...analytics,
+                        ...stats.data,
+                        ...summ.data
+                    });
+                }
+            } catch (error) {
+                console.error(error)
+            } finally {
+                setLoading(false);
             }
         }
 
         fetchData();
-        setLoading(false);
     }, [accessToken, analytics])
 
     // Prepare chart data

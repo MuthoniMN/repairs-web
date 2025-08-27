@@ -59,15 +59,20 @@ const ClientsTable: React.FC<ClientsTableProps> = ({
 
     useEffect(() => {
         const fetchData = async () => {
-            const res = await getAllClients(accessToken);
+            try {
+                const res = await getAllClients(accessToken);
 
-            if (res.success) {
-                setClients(res.data);
+                if (res.success) {
+                    setClients(res.data);
+                }
+            } catch (error) {
+                console.error(error)
+            } finally {
+                setLoading(false)
             }
         }
 
         fetchData()
-        setLoading(false)
     }, [refresh, accessToken, setClients])
 
     const formatDate = useCallback((dateString?: string) => {

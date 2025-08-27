@@ -25,15 +25,20 @@ export default function JobsList() {
 
     useEffect(() => {
         const fetchData = async () => {
-            const res = await getAllJobs(accessToken);
+            try {
+                const res = await getAllJobs(accessToken);
 
-            if (res.success) {
-                setJobs(res.data);
+                if (res.success) {
+                    setJobs(res.data);
+                }
+            } catch (error) {
+                console.error(error)
+            } finally {
+                setLoading(false)
             }
         }
 
         fetchData();
-        setLoading(false)
     }, [open, accessToken, setJobs])
 
     // Pagination calculations

@@ -23,15 +23,21 @@ export default function ContractorsList() {
 
     useEffect(() => {
         const fetchData = async () => {
-            const res = await getAllContractors(accessToken);
+            try {
+                const res = await getAllContractors(accessToken);
 
-            if (res.success) {
-                setContractors(res.data)
+                if (res.success) {
+                    setContractors(res.data)
+                }
+
+            } catch (error) {
+                console.error(error)
+            } finally {
+                setLoading(false)
             }
         }
 
         fetchData()
-        setLoading(false)
     }, [accessToken])
 
     // Pagination calculations

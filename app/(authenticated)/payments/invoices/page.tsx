@@ -23,17 +23,23 @@ export default function Payments() {
 
     useEffect(() => {
         const fetchData = async () => {
-            const res = await getAllInvoices(accessToken);
+            try {
+                const res = await getAllInvoices(accessToken);
 
-            if (res.success && Array.isArray(res.data)) {
-                setInvoices(res.data);
-            } else {
-                setInvoices([]); // fallback
+                if (res.success && Array.isArray(res.data)) {
+                    setInvoices(res.data);
+                } else {
+                    setInvoices([]); // fallback
+                }
+
+            } catch (error) {
+                console.error(error)
+            } finally {
+                setLoading(false)
             }
         }
 
         fetchData()
-        setLoading(false)
     }, [accessToken])
 
     // Pagination calculations

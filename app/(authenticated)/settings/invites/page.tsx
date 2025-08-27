@@ -31,16 +31,21 @@ export default function UserManagementPage() {
         if (!accessToken) return;
 
         const fetchData = async () => {
-            const res = await getAllInvites(accessToken);
-            const results = await getAllRoles(accessToken);
+            try {
+                const res = await getAllInvites(accessToken);
+                const results = await getAllRoles(accessToken);
 
-            if (res.success) {
-                setInvites(res.data);
+                if (res.success) {
+                    setInvites(res.data);
+                }
+                if (results.success) {
+                    setRoles(results.data);
+                }
+            } catch (error) {
+                console.error(error)
+            } finally {
+                setLoading(false)
             }
-            if (results.success) {
-                setRoles(results.data);
-            }
-            setLoading(false)
         }
 
         fetchData()
