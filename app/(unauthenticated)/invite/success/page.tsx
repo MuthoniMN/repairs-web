@@ -11,7 +11,7 @@ const SuccessState = () => {
                 <div className="bg-green-100 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6">
                     <CheckCircle className="w-10 h-10 text-green-600" />
                 </div>
-                <h1 className="text-2xl font-bold text-gray-900 mb-4">Welcome to {invite?.company?.name}!</h1>
+                <h1 className="text-2xl font-bold text-gray-900 mb-4">Welcome to {invite?.company?.companyName}!</h1>
                 <p className="text-gray-600 mb-8">
                     Your account has been created successfully. You can now access your dashboard and start collaborating with your team.
                 </p>

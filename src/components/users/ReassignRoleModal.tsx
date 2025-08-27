@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { IUser, IRole } from '../../types';
 import { X, UserCheck, Shield } from 'lucide-react';
+import Image from 'next/image';
 
 interface RoleReassignModalProps {
     isOpen: boolean;
@@ -60,7 +61,7 @@ const RoleReassignModal: React.FC<RoleReassignModalProps> = ({ isOpen, onClose, 
                             <div className="space-y-6">
                                 <div className="bg-gray-50 rounded-lg p-4">
                                     <div className="flex items-center">
-                                        <img
+                                        <Image
                                             src={user.profilePicture}
                                             alt={user.name}
                                             className="w-12 h-12 rounded-full object-cover"

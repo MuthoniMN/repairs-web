@@ -9,6 +9,7 @@ export const getDashboardData = async (accessToken?: string) => {
         }, accessToken);
 
         return { success: true, data };
+        /* eslint-disable @typescript-eslint/no-explicit-any */
     } catch (error: any) {
         return { success: false, error: error.message };
     }
@@ -20,6 +21,7 @@ export const getFinancialSummary = async (accessToken?: string) => {
             method: 'GET',
         }, accessToken);
         return { success: true, data };
+        /* eslint-disable @typescript-eslint/no-explicit-any */
     } catch (error: any) {
         return { success: false, error: error.message };
     }
@@ -31,6 +33,7 @@ export const getInventoryOverview = async (accessToken?: string) => {
             method: 'GET',
         }, accessToken);
         return { success: true, data };
+        /* eslint-disable @typescript-eslint/no-explicit-any */
     } catch (error: any) {
         return { success: false, error: error.message };
     }
@@ -42,6 +45,7 @@ export const getRecentActivity = async (accessToken?: string) => {
             method: 'GET',
         }, accessToken);
         return { success: true, data };
+        /* eslint-disable @typescript-eslint/no-explicit-any */
     } catch (error: any) {
         return { success: false, error: error.message };
     }

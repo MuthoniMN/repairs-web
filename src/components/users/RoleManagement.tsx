@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { IRole, IPermission } from '../../types';
+import { IRole } from '../../types';
 import { Plus, Edit, Trash2, Shield, Users } from 'lucide-react';
 
 interface RoleManagementProps {
     roles: IRole[];
-    permissions: IPermission[];
     onCreateRole: () => void;
     onEditRole: (role: IRole) => void;
     onDeleteRole: (roleId: string) => void;
@@ -12,7 +11,6 @@ interface RoleManagementProps {
 
 const RoleManagement: React.FC<RoleManagementProps> = ({
     roles,
-    permissions,
     onCreateRole,
     onEditRole,
     onDeleteRole

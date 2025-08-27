@@ -1,7 +1,6 @@
 import React from 'react';
 import {
     Package,
-    DollarSign,
     AlertTriangle,
     TrendingUp,
     Eye,
@@ -9,8 +8,6 @@ import {
     Trash2,
     Tag,
     Barcode,
-    Users,
-    FileText,
     Calendar,
     User,
     Building2,

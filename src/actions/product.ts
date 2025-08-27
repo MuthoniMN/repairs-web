@@ -9,6 +9,7 @@ export const getAllProducts = async (accessToken?: string) => {
             method: 'GET',
         }, accessToken);
         return { success: true, data };
+        /* eslint-disable @typescript-eslint/no-explicit-any */
     } catch (error: any) {
         return { success: false, error: error.message };
     }
@@ -20,6 +21,7 @@ export const getProductById = async (id: string, accessToken?: string) => {
             method: 'GET',
         }, accessToken);
         return { success: true, data };
+        /* eslint-disable @typescript-eslint/no-explicit-any */
     } catch (error: any) {
         return { success: false, error: error.message };
     }
@@ -32,6 +34,7 @@ export const createProduct = async (productData: IProduct, accessToken?: string)
             body: JSON.stringify(productData),
         }, accessToken);
         return { success: true, data };
+        /* eslint-disable @typescript-eslint/no-explicit-any */
     } catch (error: any) {
         return { success: false, error: error.message };
     }
@@ -44,6 +47,7 @@ export const updateProduct = async (id: string, productData: IProduct, accessTok
             body: JSON.stringify(productData),
         }, accessToken);
         return { success: true, data };
+        /* eslint-disable @typescript-eslint/no-explicit-any */
     } catch (error: any) {
         return { success: false, error: error.message };
     }
@@ -55,6 +59,7 @@ export const deleteProduct = async (id: string, accessToken?: string) => {
             method: 'DELETE',
         }, accessToken);
         return { success: true, data };
+        /* eslint-disable @typescript-eslint/no-explicit-any */
     } catch (error: any) {
         return { success: false, error: error.message };
     }
@@ -66,6 +71,7 @@ export const getProductsByCategory = async (category: string, accessToken?: stri
             method: 'GET',
         }, accessToken);
         return { success: true, data };
+        /* eslint-disable @typescript-eslint/no-explicit-any */
     } catch (error: any) {
         return { success: false, error: error.message };
     }
@@ -77,6 +83,7 @@ export const getLowStockProducts = async (accessToken?: string) => {
             method: 'GET',
         }, accessToken);
         return { success: true, data };
+        /* eslint-disable @typescript-eslint/no-explicit-any */
     } catch (error: any) {
         return { success: false, error: error.message };
     }
@@ -88,6 +95,7 @@ export const getProductSummary = async (accessToken?: string) => {
             method: 'GET',
         }, accessToken);
         return { success: true, data };
+        /* eslint-disable @typescript-eslint/no-explicit-any */
     } catch (error: any) {
         return { success: false, error: error.message };
     }

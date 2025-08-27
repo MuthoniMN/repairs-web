@@ -9,8 +9,8 @@ export const getAllClients = async (accessToken?: string) => {
             method: 'GET',
         }, accessToken);
         return { success: true, data };
-    } catch (error: any) {
-        return { success: false, error: error.message };
+    } catch (error: unknown) {
+        return { success: false, error: error instanceof Error ? error.message : 'An unknown error occurred' };
     }
 };
 
@@ -20,8 +20,8 @@ export const getClientById = async (id: string, accessToken?: string) => {
             method: 'GET',
         }, accessToken);
         return { success: true, data };
-    } catch (error: any) {
-        return { success: false, error: error.message };
+    } catch (error: unknown) {
+        return { success: false, error: error instanceof Error ? error.message : 'An unknown error occurred' };
     }
 };
 
@@ -32,8 +32,8 @@ export const createClient = async (clientData: IClient, accessToken?: string) =>
             body: JSON.stringify(clientData),
         }, accessToken);
         return { success: true, data };
-    } catch (error: any) {
-        return { success: false, error: error.message };
+    } catch (error: unknown) {
+        return { success: false, error: error instanceof Error ? error.message : 'An unknown error occurred' };
     }
 };
 
@@ -44,8 +44,8 @@ export const updateClient = async (id: string, clientData: IClient, accessToken?
             body: JSON.stringify(clientData),
         }, accessToken);
         return { success: true, data };
-    } catch (error: any) {
-        return { success: false, error: error.message };
+    } catch (error: unknown) {
+        return { success: false, error: error instanceof Error ? error.message : 'An unknown error occurred' };
     }
 };
 
@@ -55,7 +55,7 @@ export const deleteClient = async (id: string, accessToken?: string) => {
             method: 'DELETE',
         }, accessToken);
         return { success: true, data };
-    } catch (error: any) {
-        return { success: false, error: error.message };
+    } catch (error: unknown) {
+        return { success: false, error: error instanceof Error ? error.message : 'An unknown error occurred' };
     }
 };

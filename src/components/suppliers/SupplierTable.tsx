@@ -39,7 +39,7 @@ const SupplierTable = () => {
 
         fetchData()
         setLoading(false);
-    }, [])
+    }, [accessToken, setSuppliers])
 
     const columns = useMemo(() => [
         columnHelper.accessor('company', {
@@ -229,7 +229,7 @@ const SupplierTable = () => {
                 </div>
                 <div className="text-gray-500">
                     {table.getState().globalFilter && (
-                        <span>Filtered by: "{table.getState().globalFilter}"</span>
+                        <span>Filtered by: &quot;{table.getState().globalFilter}&quot;</span>
                     )}
                 </div>
             </div>

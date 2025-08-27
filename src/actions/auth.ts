@@ -9,8 +9,8 @@ export const login = async (credentials: { email: string; password: string }) =>
             body: JSON.stringify(credentials),
         });
         return { success: true, data };
-    } catch (error: any) {
-        return { success: false, error: error.message };
+    } catch (error: unknown) {
+        return { success: false, error: error instanceof Error ? error.message : 'An unknown error occurred' };
     }
 };
 
@@ -21,8 +21,8 @@ export const createPassword = async (data: { email: string; password: string; to
             body: JSON.stringify(data),
         });
         return { success: true, data: result };
-    } catch (error: any) {
-        return { success: false, error: error.message };
+    } catch (error: unknown) {
+        return { success: false, error: error instanceof Error ? error.message : 'An unknown error occurred' };
     }
 };
 
@@ -33,8 +33,8 @@ export const resetPassword = async (data: { email: string; password: string }) =
             body: JSON.stringify(data),
         });
         return { success: true, data: result };
-    } catch (error: any) {
-        return { success: false, error: error.message };
+    } catch (error: unknown) {
+        return { success: false, error: error instanceof Error ? error.message : 'An unknown error occurred' };
     }
 };
 
@@ -45,8 +45,8 @@ export const sendOtp = async (email: string) => {
             body: JSON.stringify({ email }),
         });
         return { success: true, data: result };
-    } catch (error: any) {
-        return { success: false, error: error.message };
+    } catch (error: unknown) {
+        return { success: false, error: error instanceof Error ? error.message : 'An unknown error occurred' };
     }
 };
 
@@ -57,8 +57,8 @@ export const verifyOtp = async (data: { email: string; code: string }) => {
             body: JSON.stringify(data),
         });
         return { success: true, data: result };
-    } catch (error: any) {
-        return { success: false, error: error.message };
+    } catch (error: unknown) {
+        return { success: false, error: error instanceof Error ? error.message : 'An unknown error occurred' };
     }
 };
 
@@ -69,7 +69,7 @@ export const refreshToken = async (refreshToken: string) => {
             body: JSON.stringify({ refreshToken }),
         });
         return { success: true, data: result };
-    } catch (error: any) {
-        return { success: false, error: error.message };
+    } catch (error: unknown) {
+        return { success: false, error: error instanceof Error ? error.message : 'An unknown error occurred' };
     }
 };

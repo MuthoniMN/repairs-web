@@ -68,7 +68,7 @@ const ClientsTable: React.FC<ClientsTableProps> = ({
 
         fetchData()
         setLoading(false)
-    }, [refresh])
+    }, [refresh, accessToken, setClients])
 
     const formatDate = useCallback((dateString?: string) => {
         if (!dateString) return '-';
@@ -78,7 +78,7 @@ const ClientsTable: React.FC<ClientsTableProps> = ({
             year: 'numeric'
         });
     }, []);
-
+    /* eslint-disable @typescript-eslint/no-explicit-any */
     const columns = useMemo<ColumnDef<IClient, any>[]>(() => [
         {
             accessorKey: 'name',

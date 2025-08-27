@@ -9,8 +9,8 @@ export const getCompanyDetails = async (accessToken?: string) => {
             method: 'GET',
         }, accessToken);
         return { success: true, data };
-    } catch (error: any) {
-        return { success: false, error: error.message };
+    } catch (error: unknown) {
+        return { success: false, error: error instanceof Error ? error.message : 'An unknown error occurred' };
     }
 };
 
@@ -21,11 +21,11 @@ export const updateCompanyDetails = async (companyData: Partial<ICompany>, acces
             body: JSON.stringify(companyData),
         }, accessToken);
         return { success: true, data };
-    } catch (error: any) {
-        return { success: false, error: error.message };
+    } catch (error: unknown) {
+        return { success: false, error: error instanceof Error ? error.message : 'An unknown error occurred' };
     }
 };
-
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export const addContactInfo = async (contactInfoData: any, accessToken?: string) => {
     try {
         const data = await apiClient('/company/contact', {
@@ -33,11 +33,12 @@ export const addContactInfo = async (contactInfoData: any, accessToken?: string)
             body: JSON.stringify(contactInfoData),
         }, accessToken);
         return { success: true, data };
-    } catch (error: any) {
-        return { success: false, error: error.message };
+    } catch (error: unknown) {
+        return { success: false, error: error instanceof Error ? error.message : 'An unknown error occurred' };
     }
 };
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export const updateContactInfo = async (id: string, contactInfoData: any, accessToken?: string) => {
     try {
         const data = await apiClient(`/company/contact/${id}`, {
@@ -45,8 +46,8 @@ export const updateContactInfo = async (id: string, contactInfoData: any, access
             body: JSON.stringify(contactInfoData),
         }, accessToken);
         return { success: true, data };
-    } catch (error: any) {
-        return { success: false, error: error.message };
+    } catch (error: unknown) {
+        return { success: false, error: error instanceof Error ? error.message : 'An unknown error occurred' };
     }
 };
 
@@ -56,11 +57,12 @@ export const deleteContactInfo = async (id: string, accessToken?: string) => {
             method: 'DELETE',
         }, accessToken);
         return { success: true, data };
-    } catch (error: any) {
-        return { success: false, error: error.message };
+    } catch (error: unknown) {
+        return { success: false, error: error instanceof Error ? error.message : 'An unknown error occurred' };
     }
 };
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export const addPaymentMethod = async (paymentMethodData: any, accessToken?: string) => {
     try {
         const data = await apiClient('/company/payment-method', {
@@ -68,11 +70,12 @@ export const addPaymentMethod = async (paymentMethodData: any, accessToken?: str
             body: JSON.stringify(paymentMethodData),
         }, accessToken);
         return { success: true, data };
-    } catch (error: any) {
-        return { success: false, error: error.message };
+    } catch (error: unknown) {
+        return { success: false, error: error instanceof Error ? error.message : 'An unknown error occurred' };
     }
 };
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export const updatePaymentMethod = async (id: string, paymentMethodData: any, accessToken?: string) => {
     try {
         const data = await apiClient(`/company/payment-method/${id}`, {
@@ -80,8 +83,8 @@ export const updatePaymentMethod = async (id: string, paymentMethodData: any, ac
             body: JSON.stringify(paymentMethodData),
         }, accessToken);
         return { success: true, data };
-    } catch (error: any) {
-        return { success: false, error: error.message };
+    } catch (error: unknown) {
+        return { success: false, error: error instanceof Error ? error.message : 'An unknown error occurred' };
     }
 };
 
@@ -91,8 +94,8 @@ export const deletePaymentMethod = async (id: string, accessToken?: string) => {
             method: 'DELETE',
         }, accessToken);
         return { success: true, data };
-    } catch (error: any) {
-        return { success: false, error: error.message };
+    } catch (error: unknown) {
+        return { success: false, error: error instanceof Error ? error.message : 'An unknown error occurred' };
     }
 };
 
@@ -102,8 +105,8 @@ export const getCompanyContactInfo = async (accessToken?: string) => {
             method: 'GET',
         }, accessToken);
         return { success: true, data };
-    } catch (error: any) {
-        return { success: false, error: error.message };
+    } catch (error: unknown) {
+        return { success: false, error: error instanceof Error ? error.message : 'An unknown error occurred' };
     }
 };
 
@@ -113,7 +116,7 @@ export const getCompanyPaymentMethods = async (accessToken?: string) => {
             method: 'GET',
         }, accessToken);
         return { success: true, data };
-    } catch (error: any) {
-        return { success: false, error: error.message };
+    } catch (error: unknown) {
+        return { success: false, error: error instanceof Error ? error.message : 'An unknown error occurred' };
     }
 };

@@ -1,7 +1,6 @@
-import React from 'react';
 import React, { useState } from 'react';
-import { DashboardSummary } from '../../types/dashboard';
-import { CreditCard, Receipt, ArrowUpRight, ArrowDownRight, ChevronLeft, ChevronRight } from 'lucide-react';
+import { DashboardSummary } from '../../types/';
+import { CreditCard, ArrowUpRight, ArrowDownRight, ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface RecentActivityProps {
     data: DashboardSummary['recentActivity'];
@@ -56,7 +55,7 @@ const RecentActivity: React.FC<RecentActivityProps> = ({ data }) => {
             </div>
 
             <div className="space-y-4">
-                {currentActivity.map((activity, index) => {
+                {currentActivity.map((activity) => {
                     const Icon = activity.icon;
                     return (
                         <div key={`${activity.type}-${activity.id}`} className="flex items-center justify-between py-3 border-b border-gray-100 last:border-b-0">

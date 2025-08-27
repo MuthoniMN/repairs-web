@@ -2,9 +2,10 @@
 
 import React, { useEffect, useState } from "react";
 import { ICompany, ICompanyContact, IPaymentMethod } from "@/src/types";
-import { deletePaymentMethod, getCompanyContactInfo, getCompanyDetails, getCompanyPaymentMethods } from "@/src/actions/company";
+import { deleteContactInfo, deletePaymentMethod, getCompanyContactInfo, getCompanyDetails, getCompanyPaymentMethods, updateContactInfo, updatePaymentMethod } from "@/src/actions/company";
 import InputContainer from "@/src/components/InputContainer";
 import useAuthStore from "@/src/stores/authStore";
+import Button from "@/src/components/Button";
 
 type SettingsTabs = "company" | "contacts" | "payments";
 
@@ -33,50 +34,65 @@ const SettingsPage: React.FC = () => {
         }
 
         fetchData();
-    }, [])
+    }, [accessToken])
 
     // --- COMPANY UPDATE ---
-    const handleCompanyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setCompany({ ...company, [e.target.name]: e.target.value });
-    };
+    // const handleCompanyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    //     setCompany({ ...company, [e.target.name]: e.target.value });
+    // };
 
     // --- CONTACTS ---
     const addContact = () => {
-        const newContact: ICompanyContact = {
-            id: Date.now().toString(),
-            phoneNumber: "",
-            ussdCode: "",
-            email: "",
-            company,
-            created_at: new Date().toISOString(),
-        };
+        // const newContact: ICompanyContact = {
+        //     id: Date.now().toString(),
+        //     phoneNumber: "",
+        //     ussdCode: "",
+        //     email: "",
+        //     company,
+        //     created_at: new Date().toISOString(),
+        // };
 
     };
 
-    const updateContact = (id: string, updated: Partial<ICompanyContact>) => {
-        const update = [...contacts.filter(cont => cont.id === id), updated as ICompanyContact]
-        setContacts(update);
+    const updateContact = async (id: string, updated: Partial<ICompanyContact>) => {
+        const res = await updateContactInfo(id, updated, accessToken);
+        if (res.success) {
+            const update = await getCompanyContactInfo();
+            setContacts(update.data);
+        }
     };
 
-    const deleteContact = (id: string) => {
-        const update = [...contacts.filter(cont => cont.id === id)]
-        setContacts(update);
+    const deleteContact = async (id: string) => {
+        const res = await deleteContactInfo(id, accessToken);
+
+        if (res.success) {
+            const update = await getCompanyContactInfo();
+            setContacts(update.data);
+        }
     };
 
     // --- PAYMENT METHODS ---
-    const addPayment = (method: IPaymentMethod) => {
-        const update = [...methods, method]
-        setMethods(update);
-    };
+    // const addPayment = (method: IPaymentMethod) => {
+    //     const update = [...methods, method]
+    //     setMethods(update);
+    // };
 
-    const updatePayment = (id: string, updated: Partial<IPaymentMethod>) => {
-        const update = [...methods.filter(cont => cont.id === id), updated as IPaymentMethod]
-        setMethods(update);
+    const updatePayment = async (id: string, updated: Partial<IPaymentMethod>) => {
+        const res = await updatePaymentMethod(id, updated, accessToken);
+
+        if (res.success) {
+            const update = await getCompanyPaymentMethods();
+            setMethods(update.data);
+        }
     };
 
     const deletePayment = async (id: string) => {
-        const update = [...methods.filter(cont => cont.id === id)]
-        setMethods(update);
+        const res = await deletePaymentMethod(id, accessToken);
+
+        if (res.success) {
+            const update = await getCompanyPaymentMethods();
+            setMethods(update.data);
+        }
     };
 
     return (
@@ -174,9 +190,7 @@ const SettingsPage: React.FC = () => {
                     <div>
                         <div className="flex justify-between items-center mb-4">
                             <h3 className="font-semibold">Payment Methods</h3>
-                            <button onClick={addPayment} className="px-3 py-1 bg-blue-500 text-white rounded">
-                                + Add Method
-                            </button>
+                            <Button event={() => console.log('Added!')} classNames="px-3 py-1 bg-blue-500 text-white rounded" text="+ Add Method" />
                         </div>
                         {methods?.length ? (
                             <ul className="space-y-3">
@@ -185,6 +199,7 @@ const SettingsPage: React.FC = () => {
                                         <div className="space-y-1">
                                             <select
                                                 value={p.methodName}
+                                                /* eslint-disable @typescript-eslint/no-explicit-any */
                                                 onChange={(e) => updatePayment(p.id!, { methodName: e.target.value as any })}
                                                 className="border p-1 mr-2"
                                             >

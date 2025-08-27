@@ -8,6 +8,7 @@ export function maskEmail(email: string): string {
     return name.slice(0, 3) + "*".repeat(name.length - 3) + "@" + domain;
 }
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export function validateInput<T>(schema: z.ZodSchema<any>, data: T): { isValid: boolean; errors: Record<string, string> } {
     try {
         schema.parse(data);

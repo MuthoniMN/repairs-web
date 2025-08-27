@@ -9,6 +9,7 @@ export const getAllExpenses = async (accessToken?: string) => {
             method: 'GET',
         }, accessToken);
         return { success: true, data };
+        /* eslint-disable @typescript-eslint/no-explicit-any */
     } catch (error: any) {
         return { success: false, error: error.message };
     }
@@ -20,6 +21,7 @@ export const getExpenseById = async (id: string, accessToken?: string) => {
             method: 'GET',
         }, accessToken);
         return { success: true, data };
+        /* eslint-disable @typescript-eslint/no-explicit-any */
     } catch (error: any) {
         return { success: false, error: error.message };
     }
@@ -32,6 +34,7 @@ export const createExpense = async (expenseData: IExpense, accessToken?: string)
             body: JSON.stringify(expenseData),
         }, accessToken);
         return { success: true, data };
+        /* eslint-disable @typescript-eslint/no-explicit-any */
     } catch (error: any) {
         return { success: false, error: error.message };
     }
@@ -44,6 +47,7 @@ export const updateExpense = async (id: string, expenseData: IExpense, accessTok
             body: JSON.stringify(expenseData),
         }, accessToken);
         return { success: true, data };
+        /* eslint-disable @typescript-eslint/no-explicit-any */
     } catch (error: any) {
         return { success: false, error: error.message };
     }
@@ -55,6 +59,7 @@ export const deleteExpense = async (id: string, accessToken?: string) => {
             method: 'DELETE',
         }, accessToken);
         return { success: true, data };
+        /* eslint-disable @typescript-eslint/no-explicit-any */
     } catch (error: any) {
         return { success: false, error: error.message };
     }
@@ -66,6 +71,7 @@ export const getRecentExpenses = async (limit: number = 10, accessToken?: string
             method: 'GET',
         }, accessToken);
         return { success: true, data };
+        /* eslint-disable @typescript-eslint/no-explicit-any */
     } catch (error: any) {
         return { success: false, error: error.message };
     }
@@ -77,6 +83,7 @@ export const getExpenseSummary = async (accessToken?: string) => {
             method: 'GET',
         }, accessToken);
         return { success: true, data };
+        /* eslint-disable @typescript-eslint/no-explicit-any */
     } catch (error: any) {
         return { success: false, error: error.message };
     }

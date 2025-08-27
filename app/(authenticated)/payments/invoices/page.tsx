@@ -5,11 +5,9 @@ import Button from "@/src/components/Button";
 import Header from "@/src/components/Header";
 import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Plus, ReceiptText } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
-import CreateRecord from "@/src/components/payments/CreateRecord";
 import CreateInvoice from "@/src/components/payments/CreateInvoice";
 import { IInvoice } from "@/src/types";
 import EmptyState from "@/src/components/EmptyState";
-import ContractorCard from "@/src/components/contractors/ContractorCard";
 import InvoiceCard from "@/src/components/payments/InvoiceCard";
 import Loading from "@/app/loading";
 import { getAllInvoices } from "@/src/actions/invoice";
@@ -34,7 +32,7 @@ export default function Payments() {
 
         fetchData()
         setLoading(false)
-    }, [])
+    }, [accessToken])
 
     // Pagination calculations
     const totalItems = invoices.length;

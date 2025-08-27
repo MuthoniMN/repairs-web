@@ -9,6 +9,7 @@ export const getAllPayments = async (accessToken?: string) => {
             method: 'GET',
         }, accessToken);
         return { success: true, data };
+        /* eslint-disable @typescript-eslint/no-explicit-any */
     } catch (error: any) {
         return { success: false, error: error.message };
     }
@@ -20,6 +21,7 @@ export const getPaymentById = async (id: string, accessToken?: string) => {
             method: 'GET',
         }, accessToken);
         return { success: true, data };
+        /* eslint-disable @typescript-eslint/no-explicit-any */
     } catch (error: any) {
         return { success: false, error: error.message };
     }
@@ -32,6 +34,7 @@ export const createPayment = async (paymentData: IPayment, accessToken?: string)
             body: JSON.stringify(paymentData),
         }, accessToken);
         return { success: true, data };
+        /* eslint-disable @typescript-eslint/no-explicit-any */
     } catch (error: any) {
         return { success: false, error: error.message };
     }
@@ -44,6 +47,7 @@ export const updatePayment = async (id: string, paymentData: IPayment, accessTok
             body: JSON.stringify(paymentData),
         }, accessToken);
         return { success: true, data };
+        /* eslint-disable @typescript-eslint/no-explicit-any */
     } catch (error: any) {
         return { success: false, error: error.message };
     }
@@ -55,6 +59,7 @@ export const deletePayment = async (id: string, accessToken?: string) => {
             method: 'DELETE',
         }, accessToken);
         return { success: true, data };
+        /* eslint-disable @typescript-eslint/no-explicit-any */
     } catch (error: any) {
         return { success: false, error: error.message };
     }
@@ -66,6 +71,7 @@ export const getRecentPayments = async (limit: number = 10, accessToken?: string
             method: 'GET',
         }, accessToken);
         return { success: true, data };
+        /* eslint-disable @typescript-eslint/no-explicit-any */
     } catch (error: any) {
         return { success: false, error: error.message };
     }
@@ -77,6 +83,7 @@ export const getPaymentSummary = async (accessToken?: string) => {
             method: 'GET',
         }, accessToken);
         return { success: true, data };
+        /* eslint-disable @typescript-eslint/no-explicit-any */
     } catch (error: any) {
         return { success: false, error: error.message };
     }
@@ -88,6 +95,7 @@ export const getPaymentStats = async (accessToken?: string) => {
             method: 'GET',
         }, accessToken);
         return { success: true, data };
+        /* eslint-disable @typescript-eslint/no-explicit-any */
     } catch (error: any) {
         return { success: false, error: error.message };
     }

@@ -6,3 +6,5 @@ function requestPermission() {
         }
     })
 }
+
+export default requestPermission;

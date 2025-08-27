@@ -9,6 +9,7 @@ export const getAllRoles = async (accessToken?: string) => {
             method: 'GET',
         }, accessToken);
         return { success: true, data };
+        /* eslint-disable @typescript-eslint/no-explicit-any */
     } catch (error: any) {
         return { success: false, error: error.message };
     }
@@ -20,6 +21,7 @@ export const getAllPermissions = async (accessToken?: string) => {
             method: 'GET',
         }, accessToken);
         return { success: true, data };
+        /* eslint-disable @typescript-eslint/no-explicit-any */
     } catch (error: any) {
         return { success: false, error: error.message };
     }
@@ -31,6 +33,7 @@ export const getRoleById = async (id: string, accessToken?: string) => {
             method: 'GET',
         }, accessToken);
         return { success: true, data };
+        /* eslint-disable @typescript-eslint/no-explicit-any */
     } catch (error: any) {
         return { success: false, error: error.message };
     }
@@ -43,6 +46,7 @@ export const createRole = async (roleData: IRole, accessToken?: string) => {
             body: JSON.stringify(roleData),
         }, accessToken);
         return { success: true, data };
+        /* eslint-disable @typescript-eslint/no-explicit-any */
     } catch (error: any) {
         return { success: false, error: error.message };
     }
@@ -55,6 +59,7 @@ export const updateRole = async (id: string, roleData: IRole, accessToken?: stri
             body: JSON.stringify(roleData),
         }, accessToken);
         return { success: true, data };
+        /* eslint-disable @typescript-eslint/no-explicit-any */
     } catch (error: any) {
         return { success: false, error: error.message };
     }
@@ -66,6 +71,7 @@ export const deleteRole = async (id: string, accessToken?: string) => {
             method: 'DELETE',
         }, accessToken);
         return { success: true, data };
+        /* eslint-disable @typescript-eslint/no-explicit-any */
     } catch (error: any) {
         return { success: false, error: error.message };
     }

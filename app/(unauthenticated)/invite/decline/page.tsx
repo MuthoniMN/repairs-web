@@ -14,7 +14,7 @@ const RejectedState = () => {
                 </div>
                 <h1 className="text-2xl font-bold text-gray-900 mb-4">Invitation Declined</h1>
                 <p className="text-gray-600 mb-8">
-                    You have successfully declined the invitation to join {invite?.company?.name}.
+                    You have successfully declined the invitation to join {invite?.company?.companyName}.
                     This invitation link is no longer valid.
                 </p>
                 <Link href='/'

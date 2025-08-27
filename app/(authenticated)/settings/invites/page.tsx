@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useState, useEffect } from 'react';
-import { Plus, Mail, Clock, CheckCircle, XCircle, Users, Search, Filter, MoreVertical, Trash2, RefreshCw, Send } from 'lucide-react';
+import { Plus, Mail, Clock, CheckCircle, XCircle, Users, Search, Trash2, RefreshCw, Send } from 'lucide-react';
 import { IInvite, IRole } from '@/src/types';
 import { createInvite, getAllInvites } from '@/src/actions/invite';
 import { getAllRoles } from '@/src/actions/role';
@@ -97,10 +97,12 @@ export default function UserManagementPage() {
             role: selectedRole,
         }, accessToken);
 
-        setInviteEmail('');
-        setSelectedRole('');
-        setShowInviteForm(false);
-        setInviteLoading(false);
+        if (res.success) {
+            setInviteEmail('');
+            setSelectedRole('');
+            setShowInviteForm(false);
+            setInviteLoading(false);
+        }
     };
 
     const handleResendInvite = (inviteId: string) => {

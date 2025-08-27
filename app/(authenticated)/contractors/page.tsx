@@ -32,7 +32,7 @@ export default function ContractorsList() {
 
         fetchData()
         setLoading(false)
-    }, [])
+    }, [accessToken])
 
     // Pagination calculations
     const totalItems = contractors.length;

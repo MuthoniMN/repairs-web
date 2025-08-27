@@ -36,7 +36,7 @@ const Dashboard: React.FC = () => {
         };
 
         fetchData();
-    }, []);
+    }, [accessToken]);
 
     if (!data || loading) {
         return (<Loading />)
@@ -53,13 +53,13 @@ const Dashboard: React.FC = () => {
                             <div>
                                 <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
                                 <p className="text-sm text-gray-600 mt-1">
-                                    Welcome back! Here's what's happening with your business today.
+                                    Welcome back! Here&apos;s what&apos;s happening with your business today.
                                 </p>
                             </div>
                         </div>
                         <div className="flex items-center space-x-4">
                             <div className="text-right">
-                                <p className="text-sm text-gray-500">Today's Revenue</p>
+                                <p className="text-sm text-gray-500">Today&pos;s Revenue</p>
                                 <p className="text-lg font-semibold text-green-600">
                                     ${data.financials.revenue.daily}
                                 </p>

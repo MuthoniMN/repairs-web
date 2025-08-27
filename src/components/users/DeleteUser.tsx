@@ -1,6 +1,6 @@
-import React from 'react';
+import Image from 'next/image';
 import { IUser } from '../../types';
-import { X, AlertTriangle, User } from 'lucide-react';
+import { X, AlertTriangle } from 'lucide-react';
 
 interface DeleteUserModalProps {
     isOpen: boolean;
@@ -49,7 +49,7 @@ const DeleteUserModal: React.FC<DeleteUserModalProps> = ({ isOpen, onClose, onCo
                         <div className="space-y-4">
                             <div className="bg-red-50 border border-red-200 rounded-lg p-4">
                                 <div className="flex items-center">
-                                    <img
+                                    <Image
                                         src={user.profilePicture}
                                         alt={user.name}
                                         className="w-12 h-12 rounded-full object-cover"

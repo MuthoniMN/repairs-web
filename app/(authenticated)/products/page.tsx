@@ -32,7 +32,7 @@ export default function Page() {
 
         fetchData();
         setLoading(false)
-    }, [open])
+    }, [open, accessToken])
 
     // Pagination calculations
     const totalItems = products.length;

@@ -6,12 +6,13 @@ import Button from "@/src/components/Button";
 import Logo from "@/src/components/Logo";
 import Modal from "@/src/components/ResponseModal";
 import useAuthStore from "@/src/stores/authStore";
-import { MailPlus, Send } from "lucide-react";
+import { MailPlus } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 
 export default function RequestOTP() {
     const { user } = useAuthStore();
+    /* eslint-disable @typescript-eslint/no-unused-vars */
     const [isPending, startTransition] = useTransition();
     const [error, setError] = useState(false);
     const router = useRouter();

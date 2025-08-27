@@ -9,6 +9,7 @@ export default function FileInput({ label, multiple = false }: { label: string, 
          file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0
          file:text-sm file:font-semibold file:bg-cyan-50 file:text-cyan-700
          hover:file:bg-cyan-100"
+                multiple={multiple}
             />
         </div>
     )

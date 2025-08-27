@@ -2,6 +2,7 @@
 
 import { IContractor } from "@/src/types";
 import { CheckCircle, Clock, XCircle, User, Star, Mail, Phone, MapPin, Calendar } from "lucide-react";
+import Image from "next/image";
 
 interface ContractorCardProps {
     contractor: IContractor;
@@ -75,10 +76,11 @@ const ContractorCard: React.FC<ContractorCardProps> = ({
                     {/* Profile Picture */}
                     <div className="flex-shrink-0">
                         {contractor.profile_picture ? (
-                            <img
+                            <Image
                                 src={contractor.profile_picture}
                                 alt={contractor.name}
                                 className="h-12 w-12 rounded-full object-cover border-2 border-gray-200"
+                                width={56}
                             />
                         ) : (
                             <div className="h-12 w-12 rounded-full bg-gray-200 flex items-center justify-center">

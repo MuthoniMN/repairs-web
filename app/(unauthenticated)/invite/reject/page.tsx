@@ -43,13 +43,13 @@ const RejectInvite = () => {
                 </div>
                 <h1 className="text-2xl font-bold text-gray-900 mb-2">Decline Invitation</h1>
                 <p className="text-gray-600">
-                    Are you sure you want to decline this invitation to join <strong>{invite?.company?.name}</strong>?
+                    Are you sure you want to decline this invitation to join <strong>{invite?.company?.companyName}</strong>?
                 </p>
             </div>
 
             <div className="bg-gray-50 rounded-lg p-4 mb-8">
                 <p className="text-sm text-gray-600">
-                    Once declined, you'll need to be invited again if you change your mind.
+                    Once declined, you&apos;ll need to be invited again if you change your mind.
                     The invitation link will no longer work.
                 </p>
             </div>

@@ -8,10 +8,11 @@ type TOptionsList = {
 }
 
 export default function SelectContainer({ value, setValue, label, placeholder, options, multiSelect = false }: {
-    value: any,
-    setValue: (txt: any) => void,
+    value: string,
+    setValue: (txt: string) => void,
     label: string,
     placeholder: string,
+    /* eslint-disable @typescript-eslint/no-explicit-any */
     options: TOptionsList[] | any,
     multiSelect?: boolean
 }) {
@@ -24,7 +25,7 @@ export default function SelectContainer({ value, setValue, label, placeholder, o
             return;
         }
         setSelected([...selected, val])
-        setValue([...selected, val])
+        setValue(val)
     }
 
     return (
@@ -32,7 +33,8 @@ export default function SelectContainer({ value, setValue, label, placeholder, o
             <label className={`${dmSans.className} font-medium`}>{label}</label>
             <select className={`py-2 px-4 bg-slate-50 ${dmSans.className}`} defaultValue={value} onChange={(e) => handleChange(e.target.value)} multiple={multiSelect}>
                 <option className={`py-2 px-4 bg-slate-50 ${dmSans.className}`}>{placeholder}</option>
-                {options.map(opt => (
+                {/* eslint-disable @typescript-eslint/no-explicit-any */}
+                {options.map((opt: any) => (
                     <option
                         className={`py-2 px-4 bg-slate-50 ${dmSans.className}`}
                         key={opt.value || opt.id}

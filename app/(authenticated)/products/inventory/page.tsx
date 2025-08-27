@@ -2,12 +2,10 @@
 
 import { dmSans } from "@/src/assets/fonts";
 import Button from "@/src/components/Button";
-import EmptyState from "@/src/components/EmptyState";
 import Header from "@/src/components/Header";
 import RestockProduct from "@/src/components/products/RestockProduct";
 import StockTable from "@/src/components/products/StockTable";
-import { IStock } from "@/src/types";
-import { Plus, Warehouse } from "lucide-react";
+import { Plus } from "lucide-react";
 import { useState } from "react";
 
 export default function Page() {

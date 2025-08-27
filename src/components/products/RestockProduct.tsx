@@ -86,6 +86,7 @@ export default function RestockProduct({ open, setOpen, prod, supplier }: { open
             } else {
                 setErrors({ general: response.error || "Failed to restock product" });
             }
+            /* eslint-disable @typescript-eslint/no-unused-vars */
         } catch (err) {
             setErrors({ general: "An unexpected error occurred" });
         } finally {
@@ -93,7 +94,7 @@ export default function RestockProduct({ open, setOpen, prod, supplier }: { open
         }
     };
 
-    const handleInputChange = (field: keyof IStock, value: any) => {
+    const handleInputChange = (field: keyof IStock, value: string | number | IProduct | ISupplier) => {
         setStock(prev => ({ ...prev, [field]: value }));
         // Clear error for this field when user starts typing
         if (errors[field]) {
@@ -105,8 +106,8 @@ export default function RestockProduct({ open, setOpen, prod, supplier }: { open
         <Modal open={open} setOpen={setOpen} title="Restock a Product">
             <form className={`flex flex-col gap-4`} onSubmit={handleSubmit}>
                 <SelectContainer
-                    value={stock.product}
-                    setValue={(val: any) => handleInputChange('product', { id: val } as IProduct)}
+                    value={stock.product.id as string}
+                    setValue={(val: string) => handleInputChange('product', { id: val } as IProduct)}
                     options={products}
                     label="Product"
                     placeholder="Select a product"
@@ -115,8 +116,8 @@ export default function RestockProduct({ open, setOpen, prod, supplier }: { open
                     <div className="text-red-500 text-sm">{errors.product}</div>
                 )}
                 <SelectContainer
-                    value={stock.supplier}
-                    setValue={(val: any) => handleInputChange('supplier', { id: val } as IProduct)}
+                    value={stock.supplier.id as string}
+                    setValue={(val: string) => handleInputChange('supplier', { id: val } as ISupplier)}
                     options={suppliers}
                     label="Supplier"
                     placeholder="Select a supplier"
@@ -127,7 +128,7 @@ export default function RestockProduct({ open, setOpen, prod, supplier }: { open
                 <InputContainer
                     label="Batch number"
                     value={stock.batch_number}
-                    setValue={(val: any) => handleInputChange('batch_number', val)}
+                    setValue={(val: string | number) => handleInputChange('batch_number', val)}
                     placeholder="BS-9001"
                 />
                 {errors.batch_number && (

@@ -218,7 +218,6 @@ const UserManagement: React.FC = () => {
                 {activeTab === 'roles' && (
                     <RoleManagement
                         roles={roles}
-                        permissions={permissions}
                         onCreateRole={handleCreateRole}
                         onEditRole={handleEditRole}
                         onDeleteRole={handleDeleteRole}

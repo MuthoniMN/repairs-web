@@ -20,7 +20,7 @@ export default function Modal({ children, open, title, setOpen }: Readonly<{
         }
         document.addEventListener("mousedown", handleClickOutside);
         return () => document.removeEventListener("mousedown", handleClickOutside);
-    }, []);
+    }, [setOpen]);
     return (
         <div className={`absolute top-0 left-0 right-0 bottom-0 z-10 bg-black/30 flex justify-center items-center ${dmSans.className} ${open ? 'block' : 'hidden'}`} ref={modalRef}>
             <div className="bg-white p-8 rounded-md md:min-w-xl min-h-2xl md:w-2/5 w-9/10 h-3/4 overflow-y-scroll overflow-x-hidden z-48">

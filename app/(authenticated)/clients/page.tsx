@@ -1,15 +1,13 @@
 "use client"
 
-import { getAllClients } from "@/src/actions/client";
 import { dmSans } from "@/src/assets/fonts";
 import Button from "@/src/components/Button";
 import ClientsTable from "@/src/components/clients/ClientTable";
 import CreateClient from "@/src/components/clients/CreateClient";
-import EmptyState from "@/src/components/EmptyState";
 import Header from "@/src/components/Header";
 import { IClient } from "@/src/types";
-import { ContactRound, FileSpreadsheet, Plus } from "lucide-react";
-import { useEffect, useState } from "react";
+import { FileSpreadsheet, Plus } from "lucide-react";
+import { useState } from "react";
 
 export default function Page() {
     const [open, setOpen] = useState(false);

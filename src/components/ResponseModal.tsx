@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { CheckCircle, XCircle, X } from 'lucide-react';
 
 const Modal = ({ isOpen, onClose, type, title, message, children }: {

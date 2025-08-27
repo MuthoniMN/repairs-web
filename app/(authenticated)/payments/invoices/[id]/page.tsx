@@ -6,11 +6,11 @@ import Header from "@/src/components/Header";
 import { Plus } from "lucide-react";
 import { useState } from "react";
 import CreateRecord from "@/src/components/payments/CreateRecord";
-import { IPayment } from "@/src/types";
+// import { IPayment } from "@/src/types";
 
 export default function Payments() {
     const [open, setOpen] = useState(false);
-    const [payments, setPayments] = useState<IPayment[]>([]);
+    // const [payments, setPayments] = useState<IPayment[]>([]);
 
     return (
         <main className={`w-full h-full text-black ${dmSans.className} px-6`}>

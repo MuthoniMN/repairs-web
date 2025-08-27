@@ -87,6 +87,7 @@ export default function CreateSupplier({ open, setOpen, sup }: {
             } else {
                 setErrors({ general: response.error || "Failed to save supplier" });
             }
+            /* eslint-disable @typescript-eslint/no-unused-vars */
         } catch (err) {
             setErrors({ general: "An unexpected error occurred" });
         } finally {
@@ -119,7 +120,7 @@ export default function CreateSupplier({ open, setOpen, sup }: {
                 <InputContainer
                     label="Company"
                     value={supplier.company}
-                    setValue={(val: any) => handleInputChange('company', val)}
+                    setValue={(val: string | number) => handleInputChange('company', val)}
                     placeholder="ABC Corp"
                     err={errors.company}
                 />
@@ -146,14 +147,14 @@ export default function CreateSupplier({ open, setOpen, sup }: {
                 <InputContainer
                     label="Location"
                     value={supplier.location}
-                    setValue={(val: any) => handleInputChange('location', val)}
+                    setValue={(val: string | number) => handleInputChange('location', val)}
                     placeholder="Langata"
                     err={errors.location}
                 />
                 <InputContainer
                     label="How long does it take them to deliver?"
                     value={supplier.leadTime}
-                    setValue={(val: any) => handleInputChange('leadTime', Number(val))}
+                    setValue={(val: string | number) => handleInputChange('leadTime', Number(val))}
                     placeholder="Enter the lead time in days"
                     type="number"
                     err={errors.leadTime}

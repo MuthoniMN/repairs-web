@@ -10,7 +10,6 @@ import Logo from "@/src/components/Logo";
 import Modal from "@/src/components/ResponseModal";
 import useAuthStore from "@/src/stores/authStore";
 import { IUser } from "@/src/types";
-import { error } from "console";
 import { FormEvent, useState, useTransition } from "react";
 import z from "zod";
 
@@ -20,6 +19,7 @@ interface IError extends IUser {
 
 export default function ProfileEdit() {
     const { user } = useAuthStore();
+    /* eslint-disable @typescript-eslint/no-unused-vars */
     const [isPending, startTransition] = useTransition();
     const [updated, setUpdated] = useState<IUser>(user as IUser);
     const [errors, setErrors] = useState<IError | null>(null);
@@ -32,6 +32,7 @@ export default function ProfileEdit() {
         profilePicture: z.string('Please upload a profile picture')
     })
 
+    /* eslint-disable @typescript-eslint/no-unused-vars */
     const handleEditProfile = async (e: FormEvent) => {
         const validator = schema.safeParse(updated);
 

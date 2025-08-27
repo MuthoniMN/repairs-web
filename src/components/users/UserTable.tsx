@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { IUser, IRole } from '../../types';
 import { UserCheck, Trash2, Shield, Search, User2 } from 'lucide-react';
+import Image from 'next/image';
 
 interface UserTableProps {
     users: IUser[];
@@ -16,7 +17,7 @@ const UserTable: React.FC<UserTableProps> = ({ users, roles, onReassignRole, onD
     const filteredUsers = users.filter(user => {
         const matchesSearch = user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
             user.email.toLowerCase().includes(searchTerm.toLowerCase());
-        const matchesRole = roleFilter === 'all' || user.role?.id === roleFilter;
+        const matchesRole = roleFilter === 'all' || (user.role as IRole)?.id === roleFilter;
         return matchesSearch && matchesRole;
     });
 
@@ -89,7 +90,7 @@ const UserTable: React.FC<UserTableProps> = ({ users, roles, onReassignRole, onD
                                 <td className="px-6 py-4 whitespace-nowrap">
                                     <div className="flex items-center">
                                         {user.profilePicture ?
-                                            (<img
+                                            (<Image
                                                 src={user.profilePicture}
                                                 alt={user.name}
                                                 className="w-10 h-10 rounded-full object-cover"

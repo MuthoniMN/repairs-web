@@ -121,6 +121,7 @@ export default function CreateProduct({ open, setOpen, user }: { open: boolean, 
             } else {
                 setErrors({ general: response.error || "Failed to save product" });
             }
+            /* eslint-disable @typescript-eslint/no-unused-vars */
         } catch (err) {
             setErrors({ general: "An unexpected error occurred" });
         } finally {

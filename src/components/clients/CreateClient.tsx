@@ -45,6 +45,7 @@ export default function CreateClient({ open, setOpen, user }: { open: boolean, s
             clientSchema.parse(client);
             setErrors({});
             return true;
+            /* eslint-disable @typescript-eslint/no-unused-vars */
         } catch (error) {
             if (error instanceof z.ZodError) {
                 const newErrors: Record<string, string> = {};

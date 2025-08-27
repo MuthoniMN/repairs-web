@@ -2,7 +2,7 @@
 
 import { getInviteById, updateInvite } from "@/src/actions/invite";
 import useInviteStore from "@/src/stores/inviteStore";
-import { IInvite } from "@/src/types";
+import { IInvite, IRole } from "@/src/types";
 import { Mail, Building, User, CheckCircle, XCircle } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -14,11 +14,13 @@ const InviteLanding = ({
 }: {
     params: Promise<{ id: string }>
 }) => {
+    /* eslint-disable @typescript-eslint/no-unused-vars */
     const [error, setError] = useState(false);
     const { setInvite, invite } = useInviteStore(
         useShallow((state) => ({ invite: state.invite, setInvite: state.setInvite }))
     );
     const router = useRouter();
+    /* eslint-disable @typescript-eslint/no-unused-vars */
     const [isPending, startTransition] = useTransition();
 
     useEffect(() => {
@@ -46,8 +48,8 @@ const InviteLanding = ({
             }
 
             router.push('/create-password');
+            /* eslint-disable @typescript-eslint/no-unused-vars */
         } catch (error) {
-            console.error(error);
             setError(true);
             return;
         }
@@ -60,9 +62,9 @@ const InviteLanding = ({
                     <div className="bg-blue-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
                         <Mail className="w-8 h-8 text-blue-600" />
                     </div>
-                    <h1 className="text-2xl font-bold text-gray-900 mb-2">You're Invited!</h1>
+                    <h1 className="text-2xl font-bold text-gray-900 mb-2">You&apos;re Invited!</h1>
                     <p className="text-gray-600">
-                        You've been invited to join <strong>{invite?.company?.name}</strong>
+                        You&apos;ve been invited to join <strong>{invite?.company?.companyName}</strong>
                     </p>
                 </div>
 
@@ -71,7 +73,7 @@ const InviteLanding = ({
                         <div className="flex items-center gap-3">
                             <Building className="w-5 h-5 text-gray-400" />
                             <div>
-                                <p className="text-sm font-medium text-gray-900">{invite?.company?.name}</p>
+                                <p className="text-sm font-medium text-gray-900">{invite?.company?.companyName}</p>
                                 <p className="text-sm text-gray-500">Organization</p>
                             </div>
                         </div>
@@ -79,14 +81,14 @@ const InviteLanding = ({
                             <User className="w-5 h-5 text-gray-400" />
                             <div>
                                 <p className="text-sm font-medium text-gray-900">{invite?.invited_by?.name}</p>
-                                <p className="text-sm text-gray-500">{invite?.invited_by?.role.role || 'Admin'}</p>
+                                <p className="text-sm text-gray-500">{(invite?.invited_by?.role as IRole).title || 'Admin'}</p>
                             </div>
                         </div>
                         <div className="flex items-center gap-3">
                             <Mail className="w-5 h-5 text-gray-400" />
                             <div>
                                 <p className="text-sm font-medium text-gray-900">{invite?.email}</p>
-                                <p className="text-sm text-gray-500">Role: {invite?.role ? invite?.role.role : 'Contractor'}</p>
+                                <p className="text-sm text-gray-500">Role: {invite?.role ? (invite?.role as IRole).title : 'Contractor'}</p>
                             </div>
                         </div>
                     </div>

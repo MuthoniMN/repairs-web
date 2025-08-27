@@ -1,14 +1,17 @@
 "use client"
 
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import Modal from "../Modal";
 import { IInvoice, IJobCard, IPayment, ISale } from "@/src/types";
 import SelectContainer from "../SelectContainer";
 import InputContainer from "../InputContainer";
 import Button from "../Button";
 import { Plus } from "lucide-react";
-import { z, ZodSchema } from "zod";
+import { z } from "zod";
 import { validateInput } from "@/src/utils";
+import { getAllInvoices } from "@/src/actions/invoice";
+import useAuthStore from "@/src/stores/authStore";
+import { createPayment } from "@/src/actions/payment";
 
 // Zod schema for payment validation
 const paymentSchema = z.object({
@@ -37,6 +40,19 @@ export default function CreateRecord({ open, setOpen }: { open: boolean, setOpen
     const [errors, setErrors] = useState<Record<string, string>>({});
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [successMessage, setSuccessMessage] = useState<string | null>(null);
+    const { accessToken } = useAuthStore();
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const res = await getAllInvoices(accessToken);
+
+            if (res.success) {
+                setInvoices(res.data);
+            }
+        }
+
+        fetchData()
+    }, [accessToken])
 
     const validateFormInput = (): boolean => {
         const { isValid, errors: validationErrors } = validateInput<IPayment>(paymentSchema, payment);
@@ -55,22 +71,19 @@ export default function CreateRecord({ open, setOpen }: { open: boolean, setOpen
         setIsSubmitting(true);
         try {
             // TODO: Implement actual API call to create payment
-            // const response = await createPayment(payment);
-            // if (response.success) {
-            setSuccessMessage("Payment recorded successfully!");
-            setPayment({
-                invoice: { id: '', cards: [] as IJobCard[], products: [] as ISale[] } as IInvoice,
-                amount: 0,
-                ref: '',
-                method: 'cash'
-            });
-            setTimeout(() => {
-                setSuccessMessage(null);
-                setOpen(false);
-            }, 2000);
-            // } else {
-            //     setErrors({ general: response.error || "Failed to record payment" });
-            // }
+            const response = await createPayment(payment);
+            if (response.success) {
+                setSuccessMessage("Payment recorded successfully!");
+                setPayment({
+                    invoice: { id: '', cards: [] as IJobCard[], products: [] as ISale[] } as IInvoice,
+                    amount: 0,
+                    ref: '',
+                    method: 'cash'
+                });
+            } else {
+                setErrors({ general: response.error || "Failed to record payment" });
+            }
+            /* eslint-disable @typescript-eslint/no-unused-vars */
         } catch (err) {
             setErrors({ general: "An unexpected error occurred" });
         } finally {
@@ -78,7 +91,7 @@ export default function CreateRecord({ open, setOpen }: { open: boolean, setOpen
         }
     };
 
-    const handleInputChange = (field: keyof IPayment, value: any) => {
+    const handleInputChange = (field: keyof IPayment, value: string | number | IInvoice) => {
         setPayment(prev => ({ ...prev, [field]: value }));
         // Clear error for this field when user starts typing
         if (errors[field]) {
@@ -91,8 +104,8 @@ export default function CreateRecord({ open, setOpen }: { open: boolean, setOpen
             <form className={`flex flex-col gap-4`} onSubmit={handleSubmit}>
                 <SelectContainer
                     label="Invoice"
-                    value={payment.invoice?.id}
-                    setValue={(txt: any) => handleInputChange('invoice', { id: txt })}
+                    value={payment.invoice?.id as string}
+                    setValue={(txt: string) => handleInputChange('invoice', { id: txt } as IInvoice)}
                     placeholder="Choose an invoice"
                     options={invoices}
                 />

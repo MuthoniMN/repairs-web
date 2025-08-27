@@ -4,7 +4,7 @@ import { Bell, ChevronDown, User } from "lucide-react";
 import GlobalSearch from "./GlobalSearch";
 import useAuthStore from "../stores/authStore";
 import Image from "next/image";
-import { dmSans, sourceSerif } from "../assets/fonts";
+import { dmSans } from "../assets/fonts";
 
 export default function TopNav() {
     const { user } = useAuthStore();

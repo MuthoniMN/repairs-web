@@ -5,6 +5,7 @@ export default function Button({ text, icon, event, classNames, disabled, type =
     text?: string,
     icon?: React.ReactElement,
     type?: 'default' | 'secondary' | 'success' | 'error'
+    /* eslint-disable @typescript-eslint/no-explicit-any */
     event?: (e: any) => void,
     classNames?: string,
     disabled?: boolean

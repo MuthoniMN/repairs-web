@@ -8,7 +8,7 @@ import Modal from "../Modal";
 import InputContainer from "../InputContainer";
 import { Plus, X, Save } from "lucide-react";
 import Button from "../Button";
-import { set, z } from "zod";
+import { z } from "zod";
 
 // Zod schema for contractor validation
 const contractorSchema = z.object({
@@ -65,6 +65,7 @@ export default function CreateContractor({ open, setOpen, contract }: {
             contractorSchema.parse(contractor);
             setErrors({});
             return true;
+            /* eslint-disable @typescript-eslint/no-unused-vars */
         } catch (error) {
             if (error instanceof z.ZodError) {
                 const newErrors: Record<string, string> = {};

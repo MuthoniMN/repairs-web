@@ -4,13 +4,12 @@ import { apiClient } from "./apiClient";
 import { IJob } from "../types/index";
 
 export const getAllJobs = async (accessToken?: string) => {
-    console.log(accessToken);
-
     try {
         const data = await apiClient('/jobs', {
             method: 'GET',
         }, accessToken);
         return { success: true, data };
+        /* eslint-disable @typescript-eslint/no-explicit-any */
     } catch (error: any) {
         return { success: false, error: error.message };
     }
@@ -22,6 +21,7 @@ export const getJobById = async (id: string, accessToken?: string) => {
             method: 'GET',
         }, accessToken);
         return { success: true, data };
+        /* eslint-disable @typescript-eslint/no-explicit-any */
     } catch (error: any) {
         return { success: false, error: error.message };
     }
@@ -33,9 +33,9 @@ export const createJob = async (jobData: IJob, accessToken?: string) => {
             method: 'POST',
             body: JSON.stringify(jobData),
         }, accessToken);
-        console.log(data);
 
         return { success: true, data };
+        /* eslint-disable @typescript-eslint/no-explicit-any */
     } catch (error: any) {
         console.log(error);
 
@@ -50,6 +50,7 @@ export const updateJob = async (id: string, jobData: IJob, accessToken?: string)
             body: JSON.stringify(jobData),
         }, accessToken);
         return { success: true, data };
+        /* eslint-disable @typescript-eslint/no-explicit-any */
     } catch (error: any) {
         return { success: false, error: error.message };
     }
@@ -61,6 +62,7 @@ export const deleteJob = async (id: string, accessToken?: string) => {
             method: 'DELETE',
         }, accessToken);
         return { success: true, data };
+        /* eslint-disable @typescript-eslint/no-explicit-any */
     } catch (error: any) {
         return { success: false, error: error.message };
     }

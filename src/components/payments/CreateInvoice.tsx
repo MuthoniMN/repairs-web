@@ -2,15 +2,17 @@
 
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import Modal from "../Modal";
-import { IInvoice, IJob, IJobCard, IPayment, ISale } from "@/src/types";
+import { IInvoice, IJob, IJobCard, ISale } from "@/src/types";
 import SelectContainer from "../SelectContainer";
 import InputContainer from "../InputContainer";
 import Button from "../Button";
 import { Plus } from "lucide-react";
 import { z } from "zod";
-import { getAllJobs, getJobById } from "@/src/actions/job";
+import { getAllJobs } from "@/src/actions/job";
 import { createInvoice } from "@/src/actions/invoice";
 import useAuthStore from '@/src/stores/authStore';
+import { getAllJobCards } from "@/src/actions/jobCard";
+import { getAllProducts } from "@/src/actions/product";
 
 // Zod schema for invoice validation
 const invoiceSchema = z.object({
@@ -53,9 +55,13 @@ export default function CreateInvoice({ open, setOpen, job }: { open: boolean, s
 
         const fetchData = async () => {
             const res = await getAllJobs(accessToken)
+            const result = await getAllJobCards(accessToken)
+            const results = await getAllProducts(accessToken)
 
             if (res.success) {
                 setJobs(res.data)
+                setUnpaidCards(result.data)
+                setUnpaidProducts(results.data)
             }
         }
 
@@ -68,7 +74,7 @@ export default function CreateInvoice({ open, setOpen, job }: { open: boolean, s
         const profit = Math.round((markUp * calculated) / 100);
 
         setInvoice({ ...invoice, total: calculated + tax + profit })
-    }, [unpaidCards, unpaidProducts, invoice]);
+    }, [unpaidCards, unpaidProducts, invoice, markUp]);
 
     const validateInput = (): boolean => {
         try {
@@ -115,6 +121,7 @@ export default function CreateInvoice({ open, setOpen, job }: { open: boolean, s
             } else {
                 setErrors({ general: response.error || "Failed to create invoice" });
             }
+            /* eslint-disable @typescript-eslint/no-unused-vars */
         } catch (err) {
             setErrors({ general: "An unexpected error occurred" });
         } finally {
@@ -122,28 +129,28 @@ export default function CreateInvoice({ open, setOpen, job }: { open: boolean, s
         }
     };
 
-    const handleInputChange = (field: keyof IInvoice, value: any) => {
-        setInvoice(prev => ({ ...prev, [field]: value }));
-        // Clear error for this field when user starts typing
-        if (errors[field]) {
-            setErrors(prev => ({ ...prev, [field]: '' }));
-        }
-    };
+    // const handleInputChange = (field: keyof IInvoice, value: string | number | IJobCard | IProduct) => {
+    //     setInvoice(prev => ({ ...prev, [field]: value }));
+    //     // Clear error for this field when user starts typing
+    //     if (errors[field]) {
+    //         setErrors(prev => ({ ...prev, [field]: '' }));
+    //     }
+    // };
 
     return (
         <Modal open={open} setOpen={setOpen} title="Create Invoice">
             <form className={`flex flex-col gap-4`} onSubmit={handleSubmit}>
                 <SelectContainer
                     label="Job"
-                    value={invoice.job?.id}
-                    setValue={(txt: any) => setInvoice({ ...invoice, job: txt })}
+                    value={invoice.job?.id as string}
+                    setValue={(txt: string) => setInvoice({ ...invoice, job: { id: txt } as IJob })}
                     placeholder="Choose an job"
                     options={jobs}
                 />
                 {
                     unpaidCards?.length > 0 || unpaidProducts?.length > 0
                         ? ([...unpaidCards, ...unpaidProducts].map((val: IJobCard | ISale) => (
-                            <div className="flex justify-between items-center py-2 px-4 bg-cyan-50">
+                            <div className="flex justify-between items-center py-2 px-4 bg-cyan-50" key={val.id}>
                                 <div className="flex flex-col gap-2">
                                     <p className="font-medium text-lg">{'product' in val ? val.product.title : val.title}</p>
                                     <p className="text-slate-600">{val.price}</p>

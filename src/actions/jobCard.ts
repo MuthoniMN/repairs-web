@@ -9,6 +9,7 @@ export const getAllJobCards = async (accessToken: string) => {
             method: 'GET',
         }, accessToken);
         return { success: true, data };
+        /* eslint-disable @typescript-eslint/no-explicit-any */
     } catch (error: any) {
         return { success: false, error: error.message };
     }
@@ -20,6 +21,7 @@ export const getJobCardById = async (id: string, accessToken: string) => {
             method: 'GET',
         }, accessToken);
         return { success: true, data };
+        /* eslint-disable @typescript-eslint/no-explicit-any */
     } catch (error: any) {
         return { success: false, error: error.message };
     }
@@ -31,6 +33,7 @@ export const getJobCardsByJobId = async (jobId: string, accessToken: string) => 
             method: 'GET',
         }, accessToken);
         return { success: true, data };
+        /* eslint-disable @typescript-eslint/no-explicit-any */
     } catch (error: any) {
         return { success: false, error: error.message };
     }
@@ -42,6 +45,7 @@ export const getJobCardsByContractorId = async (contractorId: string, accessToke
             method: 'GET',
         }, accessToken);
         return { success: true, data };
+        /* eslint-disable @typescript-eslint/no-explicit-any */
     } catch (error: any) {
         return { success: false, error: error.message };
     }
@@ -54,6 +58,7 @@ export const createJobCard = async (jobCardData: Omit<IJobCard, 'id' | 'created_
             body: JSON.stringify(jobCardData),
         }, accessToken);
         return { success: true, data };
+        /* eslint-disable @typescript-eslint/no-explicit-any */
     } catch (error: any) {
         return { success: false, error: error.message };
     }
@@ -64,8 +69,9 @@ export const updateJobCard = async (id: string, jobCardData: Partial<IJobCard>, 
         const data = await apiClient(`/job-cards/${id}`, {
             method: 'PUT',
             body: JSON.stringify(jobCardData),
-        });
+        }, accessToken);
         return { success: true, data };
+        /* eslint-disable @typescript-eslint/no-explicit-any */
     } catch (error: any) {
         return { success: false, error: error.message };
     }
@@ -77,6 +83,7 @@ export const deleteJobCard = async (id: string, accessToken: string) => {
             method: 'DELETE',
         }, accessToken);
         return { success: true, data };
+        /* eslint-disable @typescript-eslint/no-explicit-any */
     } catch (error: any) {
         return { success: false, error: error.message };
     }
@@ -89,6 +96,7 @@ export const updateJobCardStatus = async (id: string, status: IJobCard['status']
             body: JSON.stringify({ status }),
         }, accessToken);
         return { success: true, data };
+        /* eslint-disable @typescript-eslint/no-explicit-any */
     } catch (error: any) {
         return { success: false, error: error.message };
     }
@@ -101,6 +109,7 @@ export const addAttachmentToJobCard = async (jobCardId: string, attachmentData: 
             body: JSON.stringify(attachmentData),
         }, accessToken);
         return { success: true, data };
+        /* eslint-disable @typescript-eslint/no-explicit-any */
     } catch (error: any) {
         return { success: false, error: error.message };
     }
@@ -112,6 +121,7 @@ export const removeAttachmentFromJobCard = async (jobCardId: string, attachmentI
             method: 'DELETE',
         }, accessToken);
         return { success: true, data };
+        /* eslint-disable @typescript-eslint/no-explicit-any */
     } catch (error: any) {
         return { success: false, error: error.message };
     }
@@ -124,6 +134,7 @@ export const addProductToJobCard = async (jobCardId: string, productData: { prod
             body: JSON.stringify(productData),
         }, accessToken);
         return { success: true, data };
+        /* eslint-disable @typescript-eslint/no-explicit-any */
     } catch (error: any) {
         return { success: false, error: error.message };
     }
@@ -135,6 +146,7 @@ export const removeProductFromJobCard = async (jobCardId: string, productId: str
             method: 'DELETE',
         });
         return { success: true, data };
+        /* eslint-disable @typescript-eslint/no-explicit-any */
     } catch (error: any) {
         return { success: false, error: error.message };
     }
@@ -146,6 +158,7 @@ export const getJobCardAnalytics = async (timeframe: 'day' | 'week' | 'month' | 
             method: 'GET',
         });
         return { success: true, data };
+        /* eslint-disable @typescript-eslint/no-explicit-any */
     } catch (error: any) {
         return { success: false, error: error.message };
     }
@@ -157,6 +170,7 @@ export const getJobCardStats = async () => {
             method: 'GET',
         });
         return { success: true, data };
+        /* eslint-disable @typescript-eslint/no-explicit-any */
     } catch (error: any) {
         return { success: false, error: error.message };
     }

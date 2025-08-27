@@ -14,8 +14,6 @@ import {
     PaginationState,
 } from '@tanstack/react-table';
 import {
-    BarChart,
-    Bar,
     XAxis,
     YAxis,
     CartesianGrid,
@@ -24,8 +22,6 @@ import {
     Pie,
     Cell,
     ResponsiveContainer,
-    LineChart,
-    Line,
     Area,
     AreaChart
 } from 'recharts';
@@ -119,7 +115,7 @@ const PaymentsDashboard = () => {
 
         fetchData();
         setLoading(false);
-    }, [accessToken])
+    }, [accessToken, analytics])
 
     // Prepare chart data
     useEffect(() => {
@@ -309,7 +305,7 @@ const PaymentsDashboard = () => {
                         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
                             <div className="flex items-center justify-between">
                                 <div>
-                                    <p className="text-sm font-medium text-gray-600">Today's Total</p>
+                                    <p className="text-sm font-medium text-gray-600">Today&apos;s Total</p>
                                     <p className="text-2xl font-bold text-gray-900">KES {analytics.dailyTotal ? analytics.dailyTotal.toLocaleString() : '0'}</p>
                                 </div>
                                 <div className="p-3 bg-orange-50 rounded-lg">

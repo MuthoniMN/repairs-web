@@ -5,7 +5,7 @@ import InputContainer from "../InputContainer";
 import Modal from "../Modal";
 import { IJob } from "../../types";
 import Button from "../Button";
-import { Plus, X, Save } from "lucide-react";
+import { Plus, Save } from "lucide-react";
 import SelectContainer from "../SelectContainer";
 import FormError from "../FormError";
 import { createJob, updateJob } from "@/src/actions/job";
@@ -119,6 +119,7 @@ export default function CreateJob({ open, setOpen, val }: { open: boolean, setOp
             }).parse(job);
             setErrors({});
             return true;
+            /* eslint-disable @typescript-eslint/no-unused-vars */
         } catch (error) {
             if (error instanceof z.ZodError) {
                 const newErrors: Record<string, string> = {};

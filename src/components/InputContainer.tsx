@@ -9,7 +9,7 @@ export default function InputContainer({ value, setValue, label, placeholder, on
     placeholder: string,
     large?: boolean,
     type?: HTMLInputTypeAttribute,
-    onEnter?: (txt: any) => void,
+    onEnter?: (e: React.KeyboardEvent<HTMLInputElement>) => void,
     disabled?: boolean,
     helperText?: string,
     err?: string,

@@ -16,7 +16,7 @@ export default function NavLink({ link }: { link: typeof adminLinks[3] }) {
         } else {
             setOpen(false);
         }
-    }, [path])
+    }, [path, link.link, link.subLinks])
 
     return (
         <div className={link.subLinks && link.subLinks?.length > 0 ? "bg-slate-100" : 'bg-white'}>

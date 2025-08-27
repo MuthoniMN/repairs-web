@@ -34,7 +34,7 @@ export default function JobsList() {
 
         fetchData();
         setLoading(false)
-    }, [open])
+    }, [open, accessToken, setJobs])
 
     // Pagination calculations
     const totalItems = jobs.length;

@@ -93,6 +93,8 @@ export default function CreateExpense({ open, setOpen, card, stock, contractor }
             expenseSchema.parse(payment);
             setErrors({});
             return true;
+
+            /* eslint-disable @typescript-eslint/no-unused-vars */
         } catch (error) {
             if (error instanceof z.ZodError) {
                 const newErrors: Record<string, string> = {};
@@ -144,7 +146,7 @@ export default function CreateExpense({ open, setOpen, card, stock, contractor }
                         <SelectContainer
                             label="Who would you like to pay?"
                             value={userType}
-                            setValue={(txt: any) => setUserType(txt)}
+                            setValue={(txt: string) => setUserType(txt)}
                             options={[
                                 { text: 'Contractor', value: 'contractor' },
                                 { text: 'Supplier', value: 'supplier' }
@@ -158,15 +160,15 @@ export default function CreateExpense({ open, setOpen, card, stock, contractor }
                         <>
                             <SelectContainer
                                 label="Supplier"
-                                value={payment.supplier?.id}
-                                setValue={(txt: any) => setPayment({ ...payment, supplier: txt })}
+                                value={payment.supplier?.id as string}
+                                setValue={(txt: string) => setPayment({ ...payment, supplier: { id: txt } as ISupplier })}
                                 placeholder="Choose a supplier"
                                 options={suppliers.map(supp => ({ value: supp.id, text: supp.company }))}
                             />
                             <SelectContainer
                                 label="Which stock are you paying for?"
-                                value={payment.stock?.id}
-                                setValue={(txt: any) => setPayment({ ...payment, stock: txt })}
+                                value={payment.stock?.id as string}
+                                setValue={(txt: string) => setPayment({ ...payment, stock: { id: txt } as IStock })}
                                 placeholder="Choose a stock batch"
                                 options={stocks.map((stk => ({ value: stk.id, text: stk.batch_number })))}
                             />
@@ -203,15 +205,15 @@ export default function CreateExpense({ open, setOpen, card, stock, contractor }
                         <>
                             <SelectContainer
                                 label="Contractor"
-                                value={payment.contractor?.id}
-                                setValue={(txt: any) => setPayment({ ...payment, contractor: txt })}
+                                value={payment.contractor?.id as string}
+                                setValue={(txt: string) => setPayment({ ...payment, contractor: { id: txt } as IContractor })}
                                 placeholder="Choose a contractor"
                                 options={contractors}
                             />
                             <SelectContainer
                                 label="Which job card are you paying for?"
-                                value={payment.jobCard?.id}
-                                setValue={(txt: any) => setPayment({ ...payment, jobCard: txt })}
+                                value={payment.jobCard?.id as string}
+                                setValue={(txt: string) => setPayment({ ...payment, jobCard: { id: txt } as IJobCard })}
                                 placeholder="Choose a job card"
                                 options={cards}
                             />

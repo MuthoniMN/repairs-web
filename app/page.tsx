@@ -5,7 +5,7 @@ import { dmSans } from "@/src/assets/fonts";
 import Button from "@/src/components/Button";
 import InputContainer from "@/src/components/InputContainer";
 import Logo from "@/src/components/Logo";
-import { FormEvent, useState, useTransition } from "react";
+import { useState, useTransition } from "react";
 import z from "zod";
 import FormError from "@/src/components/FormError"
 import { useRouter } from "next/navigation";
@@ -20,6 +20,7 @@ interface ILoginUser {
 export default function Home() {
   const [user, setUser] = useState<ILoginUser>({} as ILoginUser);
   const [errors, setErrors] = useState<ILoginUser>({} as ILoginUser);
+  /* eslint-disable @typescript-eslint/no-unused-vars */
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
   const { setAuthenticated } = useAuthStore();
@@ -30,7 +31,7 @@ export default function Home() {
   })
 
   const handleLogin = async (e: FormData) => {
-    console.log('Logging in...');
+    console.log('Logging in...', e);
 
     const res = schema.safeParse(user);
 
