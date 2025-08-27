@@ -1,25 +1,27 @@
 export interface IUser {
-    id: string,
+    id?: string,
     name: string,
     email: string,
     phoneNumber: string,
     password?: string,
     profilePicture: string,
-    created_at: string,
-    updated_at: string
+    role?: IRole | string,
+    created_at?: string,
+    updated_at?: string
 }
 
 export interface IRole {
-    id: string,
-    role: string,
+    id?: string,
+    title: string,
+    description: string,
     permissions: IPermission[],
     created_at: string,
-    updated_at: string
+    updated_at?: string
 }
 
 export interface IPermission {
     id: string,
-    text: string,
+    title: string,
     created_at: string,
     updated_at: string
 }
@@ -36,8 +38,8 @@ export interface IClient {
 }
 
 export interface IJob {
-    id: string,
-    slug: string,
+    id?: string,
+    slug?: string,
     title: string,
     description: string,
     progress?: string,
@@ -49,8 +51,8 @@ export interface IJob {
     cards?: IJobCard[],
     contractors?: IContractor[],
     added_by?: IUser,
-    created_at: string,
-    updated_at: string
+    created_at?: string,
+    updated_at?: string
 }
 
 export interface IContractor {
@@ -60,7 +62,7 @@ export interface IContractor {
     expertise: string,
     phoneNumber: string,
     location: string,
-    specialties: string[],
+    specialties: string,
     rating: number,
     status?: 'available' | 'busy' | 'unavailable',
     profile_picture?: string,
@@ -96,10 +98,11 @@ export interface IAttachment {
 export interface ISupplier {
     id?: string,
     company: string,
-    description: string,
     location: string,
     products?: IProduct[],
     leadTime: number,
+    email: string,
+    phoneNumber: string,
     added_by?: IUser,
     created_at?: string,
     updated_at?: string
@@ -108,6 +111,7 @@ export interface ISupplier {
 export interface IStock {
     id?: string,
     product: IProduct,
+    supplier: ISupplier,
     quantity: number,
     batch_number: string,
     logged_by?: IUser,
@@ -190,3 +194,119 @@ export interface IExpense {
     created_at?: string,
     updated_at?: string
 }
+
+export interface ICompany {
+    id?: string,
+    companyName: string,
+    location: string,
+    logo: string,
+    letterhead: string,
+    contactInfos: ICompanyContact,
+    paymentMethods: IPaymentMethod,
+    created_at?: string,
+    updated_at?: string
+}
+
+export interface ICompanyContact {
+    id?: string,
+    phoneNumber: string,
+    ussdCode: string,
+    email: string,
+    company: ICompany,
+    created_at?: string,
+    updated_at?: string
+}
+
+export interface IPaymentMethod {
+    id?: string,
+    methodName?: 'cash' | 'mpesa' | 'bank-transfer',
+    description: string,
+    accountDetails: string,
+    company: ICompany,
+    created_at?: string,
+    updated_at?: string
+}
+
+export interface IInvite {
+    id?: string,
+    email: string,
+    expiresAt: string,
+    role: IRole | string,
+    token?: string,
+    used?: boolean,
+    invited_by?: IUser,
+    company?: ICompany,
+    created_at?: string,
+    updated_at?: string
+}
+
+export type DashboardSummary = {
+    overview: {
+        totalProducts: number;
+        totalInvoices: number;
+        totalPayments: number;
+        totalExpenses: number;
+        totalRevenue: number;
+        totalExpenseAmount: number;
+        netProfit: number;
+    };
+    inventory: {
+        lowStockCount: number;
+        totalStockValue: number;
+        lowStockProducts: {
+            id: number | string;
+            title: string;
+            quantity: number;
+            reorderLevel: number;
+        }[];
+    };
+    financials: {
+        revenue: {
+            total: number;
+            daily: number;
+            weekly: number;
+            monthly: number;
+            average: number;
+        };
+        expenses: {
+            total: number;
+            daily: number;
+            weekly: number;
+            monthly: number;
+            average: number;
+            supplierTotal: number;
+            contractorTotal: number;
+        };
+        paymentMethods: Record<string, number>; // e.g. { cash: 1200, card: 3000 }
+        expenseTypes: Record<string, number>;   // e.g. { utilities: 500, rent: 2000 }
+    };
+    alerts: {
+        overdueInvoices: {
+            id: number | string;
+            ref: string;
+            amount: number;
+            dueDate: string | Date;
+        }[];
+        lowStockCount: number;
+    };
+    recentActivity: {
+        payments: {
+            id: number | string;
+            amount: number;
+            method: string;
+            created_at: string | Date;
+        }[];
+        expenses: {
+            id: number | string;
+            amount: number;
+            method: string;
+            created_at: string | Date;
+        }[];
+    };
+    analytics: {
+        salesByProduct: Record<string, number>;
+        invoicesByStatus: Record<string, number>;
+        paymentsByMethod: Record<string, number>;
+        expensesByType: Record<string, number>;
+    };
+};

@@ -1,12 +1,13 @@
 import React from "react";
 import { dmSans } from "../assets/fonts";
 
-export default function Button({ text, icon, event, classNames, type = 'default' }: {
+export default function Button({ text, icon, event, classNames, disabled, type = 'default' }: {
     text?: string,
     icon?: React.ReactElement,
     type?: 'default' | 'secondary' | 'success' | 'error'
-    event?: () => void,
-    classNames?: string
+    event?: (e: any) => void,
+    classNames?: string,
+    disabled?: boolean
 }) {
     return (
         <button className={`
@@ -17,7 +18,7 @@ export default function Button({ text, icon, event, classNames, type = 'default'
                         'bg-cyan-700 text-white hover:bg-cyan-500'
             }
             ${classNames}
-        `} onClick={event}>
+        `} onClick={event} disabled={disabled}>
             {icon}
             {text && <p className={`${dmSans.className}`}>{text}</p>}
         </button>

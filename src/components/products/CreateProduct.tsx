@@ -1,153 +1,233 @@
-"use client"
-
-import { Dispatch, SetStateAction, useState } from "react";
+import { IProduct } from "@/src/types";
+import FormError from "../FormError";
+import { createProduct, updateProduct } from "@/src/actions/product";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import Modal from "../Modal";
-import { IProduct, ISupplier } from "@/src/types";
 import InputContainer from "../InputContainer";
-import SelectContainer from "../SelectContainer";
 import Button from "../Button";
-import { Plus } from "lucide-react";
+import { Plus, Save } from "lucide-react";
+import { z } from "zod";
+import { validateInput } from "@/src/utils";
 
-const suppliers: ISupplier[] = [
-    {
-        company: 'ABC International',
-        description: "Plumbing manufacturer",
-        leadTime: 5,
-        location: 'Westlands'
-    }
-]
+// Zod schema for product validation
+const productSchema = z.object({
+    title: z.string().min(1, "Title is required"),
+    description: z.string().min(1, "Description is required"),
+    unitPrice: z.number().min(0, "Unit price must be greater than or equal to 0"),
+    sku: z.string().min(1, "SKU is required"),
+    quantity: z.number().min(0, "Quantity must be greater than or equal to 0"),
+    category: z.string().min(1, "Category is required"),
+    reorderLevel: z.number().min(0, "Reorder level must be greater than or equal to 0"),
+    reorderQuantity: z.number().min(0, "Reorder quantity must be greater than or equal to 0"),
+    sellingPrice: z.number().min(0, "Selling price must be greater than or equal to 0"),
+    brand: z.string().min(1, "Brand is required"),
+});
 
-const categories = [
-    { text: 'Plumbing', value: 'plumbing' }
-]
-
-export default function CreateProduct({ open, setOpen, val }: {
-    open: boolean,
-    setOpen: Dispatch<SetStateAction<boolean>>,
-    val?: IProduct
-}) {
-    const [product, setProduct] = useState(val || {
+export default function CreateProduct({ open, setOpen, user }: { open: boolean, setOpen: Dispatch<SetStateAction<boolean>>, user?: IProduct }) {
+    const [product, setProduct] = useState<IProduct>({
         title: '',
         description: '',
         unitPrice: 0,
+        sku: '',
+        quantity: 0,
         category: '',
-        pictures: [],
-        supplier: [{ company: '', location: '', description: '' }] as ISupplier[],
-        total: 0,
-        sellingPrice: 0,
-        batchNumber: '',
-        brand: '',
         reorderLevel: 0,
         reorderQuantity: 0,
-        sku: ''
-    } as IProduct)
+        sellingPrice: 0,
+        brand: '',
+        attachments: [],
+        supplier: [],
+    });
+
+    const [errors, setErrors] = useState<Record<string, string>>({});
+    const [successMessage, setSuccessMessage] = useState<string | null>(null);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
+    // Initialize form with user data if editing
+    useEffect(() => {
+        if (user) {
+            setProduct(user);
+        } else {
+            setProduct({
+                title: '',
+                description: '',
+                unitPrice: 0,
+                sku: '',
+                quantity: 0,
+                category: '',
+                reorderLevel: 0,
+                reorderQuantity: 0,
+                sellingPrice: 0,
+                brand: '',
+                attachments: [],
+                supplier: [],
+            });
+        }
+        setErrors({});
+        setSuccessMessage(null);
+    }, [user, open]);
+
+    const validateFormInput = (): boolean => {
+        const { isValid, errors: validationErrors } = validateInput<IProduct>(productSchema, product);
+        if (!isValid) {
+            setErrors(validationErrors);
+            return false;
+        }
+        setErrors({});
+        return true;
+    };
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!validateFormInput()) return;
+
+        setIsSubmitting(true);
+        try {
+            let response;
+            if (user?.id) {
+                // Update existing product
+                response = await updateProduct(user.id, product);
+            } else {
+                // Create new product
+                response = await createProduct(product);
+            }
+
+            if (response.success) {
+                const message = user?.id ? "Product updated successfully!" : "Product created successfully!";
+                setSuccessMessage(message);
+
+                if (!user?.id) {
+                    // Reset form only for new products
+                    setProduct({
+                        title: '',
+                        description: '',
+                        unitPrice: 0,
+                        sku: '',
+                        quantity: 0,
+                        category: '',
+                        reorderLevel: 0,
+                        reorderQuantity: 0,
+                        sellingPrice: 0,
+                        brand: '',
+                        attachments: [],
+                        supplier: [],
+                    });
+                }
+
+                setTimeout(() => {
+                    setSuccessMessage(null);
+                    setOpen(false);
+                }, 2000);
+            } else {
+                setErrors({ general: response.error || "Failed to save product" });
+            }
+        } catch (err) {
+            setErrors({ general: "An unexpected error occurred" });
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
+
+    const handleInputChange = (field: keyof IProduct, value: string | number) => {
+        setProduct(prev => ({ ...prev, [field]: value }));
+        // Clear error for this field when user starts typing
+        if (errors[field]) {
+            setErrors(prev => ({ ...prev, [field]: '' }));
+        }
+    };
+
     return (
-        <Modal open={open} setOpen={setOpen} title={val ? 'Edit Product Details' : 'Add a Product'}>
-            <form className={`flex flex-col gap-4`}>
+        <Modal open={open} setOpen={setOpen} title={user ? 'Edit Product Details' : 'Add New Product'}>
+            <form className={`flex flex-col gap-4`} onSubmit={handleSubmit}>
+                {errors.general && <FormError err={errors.general} />}
+                {successMessage && (
+                    <div className="py-2 px-4 bg-green-50 text-green-500 border border-green-200 rounded-md transition-all duration-300">
+                        {successMessage}
+                    </div>
+                )}
+
                 <InputContainer
                     label="Title"
                     value={product.title}
-                    setValue={(text: string | number) => setProduct({ ...product, title: text as string })}
-                    placeholder="Laptop Screen"
+                    setValue={(text: string | number) => handleInputChange('title', text)}
+                    placeholder="Enter product title"
+                    err={errors.title}
                 />
                 <InputContainer
                     label="Description"
                     value={product.description}
-                    setValue={(text: string | number) => setProduct({ ...product, description: text as string })}
-                    placeholder="Please enter a description"
+                    setValue={(text: string | number) => handleInputChange('description', text)}
+                    placeholder="Enter product description"
+                    err={errors.description}
                 />
-                <div className="flex justify-between items-center">
-                    <SelectContainer
-                        label="Supplier"
-                        value={product.supplier}
-                        setValue={(txt: any) => setProduct({ ...product, supplier: txt })}
-                        placeholder="ABC Corp"
-                        options={suppliers}
-                        multiSelect
-                    />
-                    <SelectContainer
-                        label="Category"
-                        value={product.category}
-                        setValue={(txt: any) => setProduct({ ...product, category: txt })}
-                        placeholder="Tech"
-                        options={categories}
-                        multiSelect
-                    />
-                </div>
-                <div className="flex justify-between items-center">
-                    <InputContainer
-                        label="Brand"
-                        value={product.brand}
-                        setValue={(text: string | number) => setProduct({ ...product, brand: text as string })}
-                        placeholder="Lenovo"
-                    />
-                    <InputContainer
-                        label="SKU"
-                        value={product.sku}
-                        setValue={(text: string | number) => setProduct({ ...product, sku: text as string })}
-                        placeholder="LS-900"
-                        type="number"
-                    />
-                </div>
-                <div className="flex flex-col gap-4">
-                    <h3 className="text-lg font-bold">Product Quantities</h3>
-                    <InputContainer
-                        label="Amount"
-                        value={product.total}
-                        setValue={(text: string | number) => setProduct({ ...product, total: text as number })}
-                        placeholder="Stocked quantity"
-                        type="number"
-                    />
-                    <div className="flex justify-between items-center">
-                        <InputContainer
-                            label="Minimum Quantity"
-                            value={product.reorderLevel}
-                            setValue={(text: string | number) => setProduct({ ...product, reorderLevel: text as number })}
-                            placeholder="Minimum quantity"
-                            type="number"
-                        />
-                        <InputContainer
-                            label="Restock Quantity"
-                            value={product.reorderLevel}
-                            setValue={(text: string | number) => setProduct({ ...product, reorderLevel: text as number })}
-                            placeholder="Restock quantity"
-                            type="number"
-                        />
-                    </div>
-                </div>
-                <div>
-                    <h3 className="text-lg font-bold my-4">Pricing Details</h3>
-                    <div className="flex justify-between items-center">
-                        <InputContainer
-                            label="Unit Price"
-                            value={product.unitPrice}
-                            setValue={(text: string | number) => setProduct({ ...product, unitPrice: text as number })}
-                            placeholder="Add the price"
-                            type="number"
-                        />
-                        <InputContainer
-                            label="Selling Price"
-                            value={product.sellingPrice}
-                            setValue={(text: string | number) => setProduct({ ...product, sellingPrice: text as number })}
-                            placeholder="Selling Price"
-                            type="number"
-                        />
-                    </div>
-                </div>
-
-                <div className="flex flex-col gap-2 text-black">
-                    <label className={`font-medium`}>{"Upload product pictures"}</label>
-                    <input
-                        type="file"
-                        className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50
-         file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0
-         file:text-sm file:font-semibold file:bg-cyan-50 file:text-cyan-700
-         hover:file:bg-cyan-100"
-                    />
-                </div>
+                <InputContainer
+                    label="Unit Price"
+                    value={product.unitPrice}
+                    setValue={(text: string | number) => handleInputChange('unitPrice', Number(text))}
+                    placeholder="Enter unit price"
+                    type="number"
+                    err={errors.unitPrice}
+                />
+                <InputContainer
+                    label="SKU"
+                    value={product.sku}
+                    setValue={(text: string | number) => handleInputChange('sku', text)}
+                    placeholder="Enter SKU"
+                    err={errors.sku}
+                />
+                <InputContainer
+                    label="Quantity"
+                    value={product.quantity}
+                    setValue={(text: string | number) => handleInputChange('quantity', Number(text))}
+                    placeholder="Enter quantity"
+                    type="number"
+                    err={errors.quantity}
+                />
+                <InputContainer
+                    label="Category"
+                    value={product.category}
+                    setValue={(text: string | number) => handleInputChange('category', text)}
+                    placeholder="Enter category"
+                    err={errors.category}
+                />
+                <InputContainer
+                    label="Reorder Level"
+                    value={product.reorderLevel}
+                    setValue={(text: string | number) => handleInputChange('reorderLevel', Number(text))}
+                    placeholder="Enter reorder level"
+                    type="number"
+                    err={errors.reorderLevel}
+                    helperText="What do you consider as low stock?"
+                />
+                <InputContainer
+                    label="Reorder Quantity"
+                    value={product.reorderQuantity}
+                    setValue={(text: string | number) => handleInputChange('reorderQuantity', Number(text))}
+                    placeholder="Enter reorder quantity"
+                    type="number"
+                    err={errors.reorderQuantity}
+                    helperText="How many do you buy per restock?"
+                />
+                <InputContainer
+                    label="Selling Price"
+                    value={product.sellingPrice}
+                    setValue={(text: string | number) => handleInputChange('sellingPrice', Number(text))}
+                    placeholder="Enter selling price"
+                    type="number"
+                    err={errors.sellingPrice}
+                />
+                <InputContainer
+                    label="Brand"
+                    value={product.brand}
+                    setValue={(text: string | number) => handleInputChange('brand', text)}
+                    placeholder="Enter brand"
+                    err={errors.brand}
+                />
                 <Button
-                    text="Create New Product"
-                    icon={(<Plus size={18} color="#fff" />)}
+                    text={isSubmitting ? "Saving..." : user ? "Update Product" : "Add Product"}
+                    icon={isSubmitting ? <Plus size={10} color="#fff" /> : user ? <Save size={10} color="#fff" /> : <Plus size={10} color="#fff" />}
+                    type={isSubmitting ? "secondary" : "default"}
+                    classNames={isSubmitting ? "opacity-50 cursor-not-allowed" : ""}
                 />
             </form>
         </Modal>

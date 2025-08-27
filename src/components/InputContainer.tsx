@@ -1,7 +1,8 @@
+import { AlertCircle } from "lucide-react";
 import { dmSans } from "../assets/fonts";
 import { HTMLInputTypeAttribute } from "react";
 
-export default function InputContainer({ value, setValue, label, placeholder, onEnter, helperText, large = false, type = 'text', disabled = false }: {
+export default function InputContainer({ value, setValue, label, placeholder, onEnter, helperText, err, large = false, type = 'text', disabled = false }: {
     value: string | number,
     setValue: (txt: string | number) => void,
     label: string,
@@ -10,7 +11,8 @@ export default function InputContainer({ value, setValue, label, placeholder, on
     type?: HTMLInputTypeAttribute,
     onEnter?: (txt: any) => void,
     disabled?: boolean,
-    helperText?: string
+    helperText?: string,
+    err?: string,
 }) {
     return (
         <div className="flex flex-col gap-2 text-black">
@@ -35,7 +37,13 @@ export default function InputContainer({ value, setValue, label, placeholder, on
                         />
                     )}
             {
-                helperText && (<p className="text-sm">{helperText}</p>)
+                helperText && (<p className="text-xs italic">{helperText}</p>)
+            }
+            {
+                err && (<div className="py-2 px-4 bg-red-50 text-red-500 flex items-center gap-2">
+                    <AlertCircle />
+                    <p>{err}</p>
+                </div>)
             }
         </div>
     );

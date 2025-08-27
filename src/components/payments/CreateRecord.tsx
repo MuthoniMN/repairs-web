@@ -7,6 +7,24 @@ import SelectContainer from "../SelectContainer";
 import InputContainer from "../InputContainer";
 import Button from "../Button";
 import { Plus } from "lucide-react";
+import { z, ZodSchema } from "zod";
+import { validateInput } from "@/src/utils";
+
+// Zod schema for payment validation
+const paymentSchema = z.object({
+    invoice: z.object({
+        id: z.string().min(1, "Invoice is required"),
+        cards: z.array(z.object({
+            id: z.string().min(1, "Job card is required")
+        })).optional(),
+        products: z.array(z.object({
+            id: z.string().min(1, "Product is required")
+        })).optional()
+    }),
+    amount: z.number().min(0, "Amount must be greater than or equal to 0"),
+    ref: z.string().min(1, "Reference is required"),
+    method: z.enum(['cash', 'mpesa', 'bank-transfer'])
+});
 
 export default function CreateRecord({ open, setOpen }: { open: boolean, setOpen: Dispatch<SetStateAction<boolean>> }) {
     const [invoices, setInvoices] = useState<IInvoice[]>([]);
@@ -16,59 +34,116 @@ export default function CreateRecord({ open, setOpen }: { open: boolean, setOpen
         ref: '',
         method: 'cash'
     } as IPayment);
+    const [errors, setErrors] = useState<Record<string, string>>({});
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [successMessage, setSuccessMessage] = useState<string | null>(null);
+
+    const validateFormInput = (): boolean => {
+        const { isValid, errors: validationErrors } = validateInput<IPayment>(paymentSchema, payment);
+        if (!isValid) {
+            setErrors(validationErrors);
+            return false;
+        }
+        setErrors({});
+        return true;
+    };
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!validateFormInput()) return;
+
+        setIsSubmitting(true);
+        try {
+            // TODO: Implement actual API call to create payment
+            // const response = await createPayment(payment);
+            // if (response.success) {
+            setSuccessMessage("Payment recorded successfully!");
+            setPayment({
+                invoice: { id: '', cards: [] as IJobCard[], products: [] as ISale[] } as IInvoice,
+                amount: 0,
+                ref: '',
+                method: 'cash'
+            });
+            setTimeout(() => {
+                setSuccessMessage(null);
+                setOpen(false);
+            }, 2000);
+            // } else {
+            //     setErrors({ general: response.error || "Failed to record payment" });
+            // }
+        } catch (err) {
+            setErrors({ general: "An unexpected error occurred" });
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
+
+    const handleInputChange = (field: keyof IPayment, value: any) => {
+        setPayment(prev => ({ ...prev, [field]: value }));
+        // Clear error for this field when user starts typing
+        if (errors[field]) {
+            setErrors(prev => ({ ...prev, [field]: '' }));
+        }
+    };
+
     return (
         <Modal open={open} setOpen={setOpen} title="Create Payment Record">
-            <form className={`flex flex-col gap-4`}>
+            <form className={`flex flex-col gap-4`} onSubmit={handleSubmit}>
                 <SelectContainer
                     label="Invoice"
                     value={payment.invoice?.id}
-                    setValue={(txt: any) => setPayment({ ...payment, invoice: txt })}
+                    setValue={(txt: any) => handleInputChange('invoice', { id: txt })}
                     placeholder="Choose an invoice"
                     options={invoices}
                 />
-                {
-                    (payment.invoice?.cards as IJobCard[])?.length > 0 || (payment.invoice?.products as ISale[])?.length > 0
-                        ? ([...(payment.invoice?.cards as IJobCard[]), ...(payment.invoice?.products as ISale[])].map((val: IJobCard | ISale) => (
-                            <div className="flex justify-between items-center py-2 px-4 bg-cyan-50">
-                                <div className="flex flex-col gap-2">
-                                    <p className="font-medium text-lg">{val.product.title || val.title}</p>
-                                    <p className="text-slate-600">{val.price}</p>
-                                </div>
-                            </div>
-                        ))) : <div className="w-full h-20 flex justify-center items-center py-2 px-4 bg-cyan-50">
-                            <p>Select an invoice to view the details</p>
-                        </div>
-                }
-                <div className="flex justify-between items-center flex-wrap gap-4">
-                    <InputContainer
-                        label="Amount"
-                        value={payment.amount}
-                        setValue={(text: string | number) => setPayment({ ...payment, amount: text as number })}
-                        placeholder="0"
-                    />
-                    <SelectContainer
-                        label="Payment Method"
-                        value={payment.method}
-                        setValue={(text: string | number) => setPayment({ ...payment, method: text as string })}
-                        placeholder="Cash"
-                        options={[
-                            { text: "M-Pesa", value: 'mpesa' },
-                            { text: "Cash", value: 'cash' },
-                            { text: "Bank Transfer", value: 'bank-transfer' }
-                        ]}
-                    />
-                    <InputContainer
-                        label="Reference"
-                        value={payment.ref}
-                        setValue={(text: string | number) => setPayment({ ...payment, ref: text as string })}
-                        placeholder="XDR-900078897"
-                    />
-                </div>
+                {errors.invoice && (
+                    <div className="text-red-500 text-sm">{errors.invoice}</div>
+                )}
+                <InputContainer
+                    label="Amount"
+                    value={payment.amount}
+                    setValue={(text: string | number) => handleInputChange('amount', Number(text))}
+                    placeholder="0"
+                />
+                {errors.amount && (
+                    <div className="text-red-500 text-sm">{errors.amount}</div>
+                )}
+                <SelectContainer
+                    label="Payment Method"
+                    value={payment.method}
+                    setValue={(text: string | number) => handleInputChange('method', text as string)}
+                    placeholder="Cash"
+                    options={[
+                        { text: "M-Pesa", value: 'mpesa' },
+                        { text: "Cash", value: 'cash' },
+                        { text: "Bank Transfer", value: 'bank-transfer' }
+                    ]}
+                />
+                <InputContainer
+                    label="Reference"
+                    value={payment.ref}
+                    setValue={(text: string | number) => handleInputChange('ref', text as string)}
+                    placeholder="XDR-900078897"
+                />
+                {errors.ref && (
+                    <div className="text-red-500 text-sm">{errors.ref}</div>
+                )}
+                {errors.general && (
+                    <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+                        {errors.general}
+                    </div>
+                )}
+                {successMessage && (
+                    <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded">
+                        {successMessage}
+                    </div>
+                )}
                 <Button
-                    text="Record Payment"
-                    icon={(<Plus size={18} color='#fff' />)}
+                    text={isSubmitting ? "Recording..." : "Record Payment"}
+                    icon={(<Plus size={18} color="#fff" />)}
+                    classNames={isSubmitting ? "opacity-50 cursor-not-allowed" : ""}
                 />
             </form>
         </Modal>
-    )
+    );
 }

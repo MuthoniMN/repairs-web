@@ -26,7 +26,7 @@ export default function NavLink({ link }: { link: typeof adminLinks[3] }) {
             </Link>
             {
                 open && link.subLinks && link.subLinks.map(sublink => (
-                    <Link href={sublink.link} className={`py-2 px-4 flex gap-4 items-center ${path != sublink.link ? 'text-slate-800' : 'text-blue-600'}`}>
+                    <Link href={sublink.link} className={`py-2 px-4 flex gap-4 items-center ${path != sublink.link ? 'text-slate-800' : 'text-blue-600'}`} key={sublink.link}>
                         {sublink.icon}
                         <p className={`text-md font-medium ${dmSans.className} hidden lg:block`}>{sublink.text}</p>
                     </Link>

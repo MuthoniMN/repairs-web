@@ -26,6 +26,7 @@ export default function SelectContainer({ value, setValue, label, placeholder, o
         setSelected([...selected, val])
         setValue([...selected, val])
     }
+
     return (
         <div className="flex flex-col gap-2 text-black">
             <label className={`${dmSans.className} font-medium`}>{label}</label>
@@ -37,7 +38,7 @@ export default function SelectContainer({ value, setValue, label, placeholder, o
                         key={opt.value || opt.id}
                         value={opt.value || opt.id}>
                         <p>{opt.text || opt.title || opt.company}</p>
-                        {value == opt.value || value.includes(opt.id) && (<Check size={18} color="#22B822" />)}
+                        {value == opt.value && (<Check size={18} color="#22B822" />)}
                     </option>
                 ))}
             </select>
