@@ -82,7 +82,7 @@ const DeleteUserModal: React.FC<DeleteUserModalProps> = ({ isOpen, onClose, onCo
 
                             <div className="bg-gray-50 rounded-md p-4">
                                 <p className="text-sm text-gray-600">
-                                    Are you absolutely sure you want to delete <strong>{user.name}</strong>'s account?
+                                    Are you absolutely sure you want to delete <strong>{user.name}</strong> account?
                                 </p>
                             </div>
                         </div>

@@ -119,7 +119,7 @@ const RoleReassignModal: React.FC<RoleReassignModalProps> = ({ isOpen, onClose, 
                                 {selectedRoleId === '' && (
                                     <div className="bg-yellow-50 border border-yellow-200 rounded-md p-3">
                                         <p className="text-sm text-yellow-800">
-                                            <strong>Warning:</strong> Removing the user's role will revoke all their access permissions.
+                                            <strong>Warning:</strong> Removing the user role will revoke all their access permissions.
                                         </p>
                                     </div>
                                 )}
