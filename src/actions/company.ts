@@ -101,7 +101,7 @@ export const deletePaymentMethod = async (id: string, accessToken?: string) => {
 
 export const getCompanyContactInfo = async (accessToken?: string) => {
     try {
-        const data = await apiClient('/company/contact', {
+        const data = await apiClient('/company/contacts', {
             method: 'GET',
         }, accessToken);
         return { success: true, data };
@@ -112,7 +112,7 @@ export const getCompanyContactInfo = async (accessToken?: string) => {
 
 export const getCompanyPaymentMethods = async (accessToken?: string) => {
     try {
-        const data = await apiClient('/company/payment-method', {
+        const data = await apiClient('/company/payment-methods', {
             method: 'GET',
         }, accessToken);
         return { success: true, data };

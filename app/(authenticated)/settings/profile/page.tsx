@@ -6,6 +6,7 @@ import { deleteContactInfo, deletePaymentMethod, getCompanyContactInfo, getCompa
 import InputContainer from "@/src/components/InputContainer";
 import useAuthStore from "@/src/stores/authStore";
 import Button from "@/src/components/Button";
+import { Trash } from "lucide-react";
 
 type SettingsTabs = "company" | "contacts" | "payments";
 
@@ -153,30 +154,28 @@ const SettingsPage: React.FC = () => {
                         {contacts.length ? (
                             <ul className="space-y-3">
                                 {contacts.map((c) => (
-                                    <li key={c.id} className="p-3 border rounded flex justify-between items-center">
-                                        <div>
-                                            <input
+                                    <li key={c.id} className="p-3 border border-gray-100 rounded-xl shadow-md flex justify-between items-center gap-8">
+                                        <div className="flex flex-col gap-4 grow">
+                                            <InputContainer
                                                 value={c.phoneNumber}
-                                                onChange={(e) => updateContact(c.id!, { phoneNumber: e.target.value })}
-                                                className="border p-1 mr-2"
+                                                setValue={(e: string | number) => console.log(c.id!, { phoneNumber: e })}
                                                 placeholder="Phone Number"
+                                                label="Phone Number"
                                             />
-                                            <input
+                                            <InputContainer
                                                 value={c.ussdCode}
-                                                onChange={(e) => updateContact(c.id!, { ussdCode: e.target.value })}
-                                                className="border p-1 mr-2"
+                                                setValue={(e: string | number) => console.log(c.id!, { ussdCode: e })}
                                                 placeholder="USSD Code"
+                                                label="USSD Code"
                                             />
-                                            <input
+                                            <InputContainer
                                                 value={c.email}
-                                                onChange={(e) => updateContact(c.id!, { email: e.target.value })}
-                                                className="border p-1"
+                                                setValue={(e: string | number) => console.log(c.id!, { email: e })}
                                                 placeholder="Email"
+                                                label="Email"
                                             />
                                         </div>
-                                        <button onClick={() => deleteContact(c.id!)} className="text-red-600">
-                                            Delete
-                                        </button>
+                                        <Button text="Delete" icon={(<Trash size={18} />)} type="error" />
                                     </li>
                                 ))}
                             </ul>

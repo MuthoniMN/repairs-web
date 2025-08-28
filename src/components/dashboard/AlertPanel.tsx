@@ -36,7 +36,7 @@ const AlertsPanel: React.FC<AlertsPanelProps> = ({ data, lowStockProducts }) => 
                                             </p>
                                         </div>
                                         <span className="text-sm font-semibold text-red-900">
-                                            ${invoice.amount.toLocaleString()}
+                                            ${invoice.amount}
                                         </span>
                                     </div>
                                 </div>
