@@ -214,9 +214,9 @@ const Dashboard: React.FC = () => {
                         </div>
                         <div className="flex items-center space-x-4">
                             <div className="text-right">
-                                <p className="text-sm text-gray-500">Today's Revenue</p>
+                                <p className="text-sm text-gray-500">Today&apos;s Revenue</p>
                                 <p className="text-lg font-semibold text-green-600">
-                                    ${data.financials.revenue.daily}
+                                    ${todayRevenue}
                                 </p>
                             </div>
                             <div className="bg-green-100 p-2 rounded-lg">
@@ -234,24 +234,24 @@ const Dashboard: React.FC = () => {
 
                 {/* Charts Row 1 */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-                    <RevenueChart data={data.financials.revenue} />
-                    <PaymentMethodsChart data={data.financials.paymentMethods} />
+                    <RevenueChart data={revenueData} />
+                    <PaymentMethodsChart data={paymentMethods} />
                 </div>
 
                 {/* Charts Row 2 */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-                    <SalesChart data={data.analytics.salesByProduct} />
-                    <ExpenseBreakdown data={data.financials.expenseTypes} />
+                    <SalesChart data={salesByProduct} />
+                    <ExpenseBreakdown data={expenseTypes} />
                 </div>
 
                 {/* Bottom Row */}
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     <AlertsPanel
-                        data={data.alerts}
-                        lowStockProducts={data.inventory.lowStockProducts}
+                        data={alerts}
+                        lowStockProducts={lowStockProducts}
                     />
-                    <RecentActivity data={data.recentActivity} />
-                    <InventoryStatus data={data.inventory} />
+                    <RecentActivity data={recentActivity} />
+                    <InventoryStatus data={inventory} />
                 </div>
             </div>
         </div>
