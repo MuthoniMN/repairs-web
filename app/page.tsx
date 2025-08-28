@@ -20,7 +20,6 @@ interface ILoginUser {
 export default function Home() {
   const [user, setUser] = useState<ILoginUser>({} as ILoginUser);
   const [errors, setErrors] = useState<ILoginUser>({} as ILoginUser);
-  /* eslint-disable @typescript-eslint/no-unused-vars */
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
   const { setAuthenticated } = useAuthStore();
@@ -81,7 +80,7 @@ export default function Home() {
 
           {errors.api && <FormError err={errors.api} />}
           <Button
-            text="Login"
+            text={isPending ? "Logging In....." : "Login"}
           />
         </form>
       </div>
